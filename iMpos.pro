@@ -25,23 +25,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
+        FuelNameDialog/fuelnamedialog.cpp \
+        FuelNameDialog/modelterminals.cpp \
+        FuelNameDialog/terminalclass.cpp \
         LoggingCategories/loggingcategories.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
+        FuelNameDialog/fuelnamedialog.h \
+        FuelNameDialog/modelterminals.h \
+        FuelNameDialog/terminalclass.h \
         LoggingCategories/loggingcategories.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
+        FuelNameDialog/fuelnamedialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    resource.qrc
