@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql network concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,13 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        ConnectionSettingDialog/connectionsettingdialog.cpp \
+        DataBases/databases.cpp \
+        LoggingCategories/loggingcategories.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        ConnectionSettingDialog/connectionsettingdialog.h \
+        DataBases/databases.h \
+        LoggingCategories/loggingcategories.h \
         mainwindow.h
 
 FORMS += \
+        ConnectionSettingDialog/connectionsettingdialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
