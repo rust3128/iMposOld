@@ -77,8 +77,8 @@ bool DataBases::connectOptions()
         QSqlQuery q = QSqlQuery(db);
 
         listSQL << "CREATE TABLE `options` (`option_id`	INTEGER NOT NULL, `value` TEXT NOT NULL, `comment` TEXT, PRIMARY KEY(`option_id`))";
-        listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1000, 'yes', 'Использовать аутентификацию')";
-        listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'да' )";
+        listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1000, 'false', 'Использовать аутентификацию')";
+        listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'true' )";
         listSQL << "INSERT INTO `users`(`fio`,`password`) VALUES ('Администратор','masterkey')";
 
         for (int i =0;i<listSQL.size();++i) {

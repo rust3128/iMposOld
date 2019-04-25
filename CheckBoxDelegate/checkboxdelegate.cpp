@@ -31,10 +31,8 @@ void CheckBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 {
     //Записываем данные в модель
     QCheckBox *cb = static_cast<QCheckBox *>(editor);
-    int value = (cb->checkState() == Qt::Checked)? true : false;
-
+    bool value = (cb->checkState() == Qt::Checked)? true : false;
     model->setData(index, value, Qt::EditRole);
-//    qInfo(logInfo()) << Q_FUNC_INFO << "SET from delegate" << value << cb->checkState() << "Index row" << index.row() ;
 }
 
 void CheckBoxDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -56,8 +54,6 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 {
     //Получаем данные
     bool data = index.model()->data(index, Qt::DisplayRole).toBool();
-
-//    qInfo(logInfo()) << Q_FUNC_INFO << "CheckBox data Row" << index.row() << "Value" << data;
 
     //Создаем стиль CheckBox
     QStyleOptionButton checkboxstyle;

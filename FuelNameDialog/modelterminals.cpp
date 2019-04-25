@@ -48,21 +48,13 @@ QVariant ModelTerminals::data(const QModelIndex &index, int role) const
 
 bool ModelTerminals::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    Q_UNUSED(role)
     if(!index.isValid()) {return false;}
-    TerminalClass t = m_listTerm[index.row()];
 
-    if(role == Qt::EditRole) {
-        if(value.toInt() == Qt::Checked){
-            t.setIsCheced(false);
+    m_listTerm[index.row()].setIsCheced(value.toBool());
+    emit QAbstractTableModel::dataChanged(index,index);
+    return true;
 
-        } else {
-            t.setIsCheced(true);
-        }
-        qInfo(logInfo()) << "IS CHECKED" << t.isCheced();
-        emit QAbstractTableModel::dataChanged(index,index);
-        return true;
-    }
-    return false;
 }
 
 Qt::ItemFlags ModelTerminals::flags(const QModelIndex &index) const

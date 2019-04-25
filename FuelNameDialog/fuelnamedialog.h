@@ -23,6 +23,11 @@ public:
     explicit FuelNameDialog(QWidget *parent = nullptr);
     ~FuelNameDialog();
 
+private slots:
+
+
+    void on_pushButton_clicked();
+
 private:
     Ui::FuelNameDialog *ui;
     ModelTerminals *modelTerminals;

@@ -29,11 +29,6 @@ void FuelNameDialog::createModelterminals()
     ui->tableViewTerminals->verticalHeader()->hide();
     ui->tableViewTerminals->resizeColumnsToContents();
 
-    for(int i=0; i<10; ++i){
-
-        qInfo(logInfo()) << modelTerminals->data(modelTerminals->index(i, 0,QModelIndex()),Qt::DisplayRole) << modelTerminals->data(modelTerminals->index(i, 1,QModelIndex()),Qt::DisplayRole);
-
-    }
 
 }
 
@@ -57,4 +52,22 @@ void FuelNameDialog::createListTerminals()
         listTerminals.append(t);
     }
 
+}
+
+
+void FuelNameDialog::on_pushButton_clicked()
+{
+    ////////Select Cheked
+//    for(int i=0; i<modelTerminals->rowCount(QModelIndex()); ++i){
+//        if(modelTerminals->data(modelTerminals->index(i,0),Qt::DisplayRole).toBool()){
+//            qInfo(logInfo()) << "Checed Terminal" << modelTerminals->data(modelTerminals->index(i,1),Qt::DisplayRole).toInt();
+//        }
+//    }
+
+    ///// set cheked
+    for(int i=0; i<modelTerminals->rowCount(QModelIndex()); ++i){
+        if(modelTerminals->data(modelTerminals->index(i,3),Qt::DisplayRole).toInt() == 3){
+            modelTerminals->setData(modelTerminals->index(i,0,QModelIndex()),true,Qt::EditRole);
+        }
+    }
 }

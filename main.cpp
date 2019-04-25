@@ -1,11 +1,14 @@
 #include "mainwindow.h"
 #include "LoggingCategories/loggingcategories.h"
 #include "DataBases/databases.h"
+#include "GetOptionsData/getoptionsdata.h"
+#include "LoginDialog/logindialog.h"
 #include <QApplication>
 #include <QFile>
 #include <QDateTime>
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QMessageBox>
 
 // Умный указатель на файл логирования
 static QScopedPointer<QFile>   m_logFile;
@@ -41,6 +44,20 @@ int main(int argc, char *argv[])
         qInfo(logInfo()) << "Аварийное завершение работы.";
         return 1;
     }
+
+    GetOptionsData opt;
+    if(opt.getOption(1000).toBool()){
+        LoginDialog *loginDlg = new LoginDialog();
+        loginDlg->exec();
+        if(loginDlg->result() == QDialog::Rejected){
+            QMessageBox::critical(nullptr,"Ошибка входа",
+                                  "Не выполнен вход в систему!<br>Дальнейшая работа не возможна.");
+            qCritical(logCritical()) << "Не выполнен вход в систему. Закрытие программы.";
+            return 1;
+        }
+    }
+
+
 
 
     MainWindow w;

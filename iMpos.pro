@@ -31,7 +31,9 @@ SOURCES += \
         FuelNameDialog/fuelnamedialog.cpp \
         FuelNameDialog/modelterminals.cpp \
         FuelNameDialog/terminalclass.cpp \
+        GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
+        LoginDialog/logindialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -42,12 +44,15 @@ HEADERS += \
         FuelNameDialog/fuelnamedialog.h \
         FuelNameDialog/modelterminals.h \
         FuelNameDialog/terminalclass.h \
+        GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
+        LoginDialog/logindialog.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
         FuelNameDialog/fuelnamedialog.ui \
+        LoginDialog/logindialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
