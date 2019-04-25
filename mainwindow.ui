@@ -29,7 +29,14 @@
     </property>
     <addaction name="actionFuelName"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Настройка</string>
+    </property>
+    <addaction name="actionOptions"/>
+   </widget>
    <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -39,6 +46,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionFuelName"/>
+   <addaction name="actionOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionFuelName">
@@ -51,6 +59,18 @@
    </property>
    <property name="shortcut">
     <string>Alt+F</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Picts/options.png</normaloff>:/Picts/options.png</iconset>
+   </property>
+   <property name="text">
+    <string>Параметры...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

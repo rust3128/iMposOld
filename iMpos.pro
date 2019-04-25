@@ -34,6 +34,7 @@ SOURCES += \
         GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
+        OptionsDialog/optionsdialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -47,12 +48,14 @@ HEADERS += \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
+        OptionsDialog/optionsdialog.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
         FuelNameDialog/fuelnamedialog.ui \
         LoginDialog/logindialog.ui \
+        OptionsDialog/optionsdialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.

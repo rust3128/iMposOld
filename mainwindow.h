@@ -18,6 +18,8 @@ public:
 private slots:
     void on_actionFuelName_triggered();
 
+    void on_actionOptions_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
