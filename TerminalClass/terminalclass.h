@@ -19,9 +19,6 @@ public:
     int regionID() const;
     void setRegionID(int regionID);
 
-    QString serverName() const;
-    void setServerName(const QString &serverName);
-
     bool isCheced() const;
     void setIsCheced(bool isCheced);
 
@@ -31,7 +28,7 @@ private:
     int m_terminalID;       // Номер терминала
     QString m_terminalName; // Наименование терминала
     int m_regionID;         // Код Региона
-    QString m_serverName;   // IP сервера
+
 };
 
 #endif // TERMINALCLASS_H

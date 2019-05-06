@@ -1,5 +1,6 @@
-#include "modelterminals.h"
+#include "ModelTerminals/modelterminals.h"
 #include "LoggingCategories/loggingcategories.h"
+#include <QColor>
 
 ModelTerminals::ModelTerminals(QList<TerminalClass> lsTerm ) :
     m_listTerm(lsTerm)
@@ -32,7 +33,6 @@ QVariant ModelTerminals::data(const QModelIndex &index, int role) const
         case 1: return t.terminalID();
         case 2: return t.terminalName();
         case 3: return t.regionID();
-        case 4: return t.serverName();
         }
         break;
     case Qt::CheckStateRole:
@@ -40,6 +40,8 @@ QVariant ModelTerminals::data(const QModelIndex &index, int role) const
             return (t.isCheced()) ? Qt::Checked : Qt::Unchecked;
         }
         break;
+    case Qt::BackgroundColorRole:
+            return (t.isCheced()) ? QColor("#ffffb2") : QColor("#ffffff");
     default:
         break;
     }
@@ -79,7 +81,6 @@ QVariant ModelTerminals::headerData(int section, Qt::Orientation orientation, in
     case 1: return "АЗС";
     case 2: return "Адрес";
     case 3: return "Регион";
-    case 4: return "Сервер";
     default:
         break;
     }

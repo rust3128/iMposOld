@@ -1,6 +1,6 @@
 #ifndef MODELTERMINALS_H
 #define MODELTERMINALS_H
-#include "terminalclass.h"
+#include "TerminalClass/terminalclass.h"
 
 #include <QObject>
 #include <QAbstractTableModel>

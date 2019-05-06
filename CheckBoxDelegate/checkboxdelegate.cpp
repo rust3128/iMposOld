@@ -2,6 +2,7 @@
 #include <QCheckBox>
 #include <QApplication>
 #include <LoggingCategories/loggingcategories.h>
+#include <QPainter>
 
 CheckBoxDelegate::CheckBoxDelegate(QObject *parent)
     :QStyledItemDelegate (parent)
@@ -64,10 +65,12 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     checkboxstyle.rect.setLeft(option.rect.x() +
                                option.rect.width()/2 - checkbox_rect.width()/2);
     //Выбрано или не выбрано
-    if(data)
+    if(data){
         checkboxstyle.state = QStyle::State_On|QStyle::State_Enabled;
-    else
+    }
+    else{
         checkboxstyle.state = QStyle::State_Off|QStyle::State_Enabled;
+    }
 
     //Готово! Отображаем!
     QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxstyle, painter);

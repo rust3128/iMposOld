@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "FuelNameDialog/fuelnamedialog.h"
+
+#include "FuelNameWizard/fuelnamewizard.h"
 #include "OptionsDialog/optionsdialog.h"
 #include <QMessageBox>
 
@@ -18,7 +19,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionFuelName_triggered()
 {
-    FuelNameDialog *dlgFuelName = new FuelNameDialog();
+    FuelNameWizard *dlgFuelName = new FuelNameWizard();
     this->setCentralWidget(dlgFuelName);
     dlgFuelName->exec();
 }

@@ -3,5 +3,9 @@
         <file>Picts/fuel.png</file>
         <file>Picts/users.png</file>
         <file>Picts/options.png</file>
+        <file>Picts/SelectAl.png</file>
+        <file>Picts/unselectAll.png</file>
+        <file>Picts/arrowleft.png</file>
+        <file>Picts/arrowright.png</file>
     </qresource>
 </RCC>

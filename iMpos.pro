@@ -28,13 +28,15 @@ SOURCES += \
         CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
-        FuelNameDialog/fuelnamedialog.cpp \
-        FuelNameDialog/modelterminals.cpp \
-        FuelNameDialog/terminalclass.cpp \
+        FuelNameWizard/fuelnamewizard.cpp \
+        FuelNameWizard/intropage.cpp \
+        FuelNameWizard/selectterminalpage.cpp \
         GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
+        ModelTerminals/modelterminals.cpp \
         OptionsDialog/optionsdialog.cpp \
+        TerminalClass/terminalclass.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -42,18 +44,23 @@ HEADERS += \
         CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
-        FuelNameDialog/fuelnamedialog.h \
-        FuelNameDialog/modelterminals.h \
-        FuelNameDialog/terminalclass.h \
+        FuelNameWizard/fuelnamewizard.h \
+        FuelNameWizard/intropage.h \
+        FuelNameWizard/pagelist.h \
+        FuelNameWizard/selectterminalpage.h \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
+        ModelTerminals/modelterminals.h \
         OptionsDialog/optionsdialog.h \
+        TerminalClass/terminalclass.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
-        FuelNameDialog/fuelnamedialog.ui \
+        FuelNameWizard/fuelnamewizard.ui \
+        FuelNameWizard/intropage.ui \
+        FuelNameWizard/selectterminalpage.ui \
         LoginDialog/logindialog.ui \
         OptionsDialog/optionsdialog.ui \
         mainwindow.ui

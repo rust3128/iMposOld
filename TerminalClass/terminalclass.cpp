@@ -1,6 +1,6 @@
 #include "terminalclass.h"
 
-#define COL_PARAMS 5
+#define COL_PARAMS 4
 
 TerminalClass::TerminalClass()
 {
@@ -45,16 +45,6 @@ int TerminalClass::regionID() const
 void TerminalClass::setRegionID(int regionID)
 {
     m_regionID = regionID;
-}
-
-QString TerminalClass::serverName() const
-{
-    return m_serverName;
-}
-
-void TerminalClass::setServerName(const QString &serverName)
-{
-    m_serverName = serverName;
 }
 
 bool TerminalClass::isCheced() const
