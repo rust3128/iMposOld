@@ -11,6 +11,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSortFilterProxyModel>
+#include <QListWidgetItem>
 
 namespace Ui {
 class SelectTerminalPage;
@@ -20,6 +21,12 @@ class SelectTerminalPage : public QWizardPage
 {
     Q_OBJECT
 
+private slots:
+    void terminalChecked();
+    void highlightChecked(QListWidgetItem *item);
+    void on_toolButtonAddTerm_clicked();
+signals:
+    void signalSendTermList(QStringList);
 public:
     explicit SelectTerminalPage(QWidget *parent = nullptr);
     ~SelectTerminalPage();
@@ -30,6 +37,9 @@ private:
     QSortFilterProxyModel *m_proxyModel;
     CheckBoxDelegate *chekDelegate;
     QList<TerminalClass> m_listTerminals;
+    QStringList m_listSelectetTerminals;
+    QStringList m_terminalsGo;
+
 private:
     void createUI();
     void createModelTerminals();

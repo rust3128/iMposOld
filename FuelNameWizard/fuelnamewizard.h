@@ -3,7 +3,8 @@
 
 #include "intropage.h"
 #include "selectterminalpage.h"
-
+#include "finalpage.h"
+#include "showfuelnamepage.h"
 #include <QWizard>
 
 namespace Ui {
@@ -22,6 +23,8 @@ private:
     Ui::FuelNameWizard *ui;
     IntroPage *m_introPage;
     SelectTerminalPage *m_terminalPage;
+    FinalPage *m_finalPage;
+    ShowFuelNamePage *m_showFuelName;
 private:
     void createWizardPage();
 };

@@ -33,6 +33,7 @@ void CheckBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
     //Записываем данные в модель
     QCheckBox *cb = static_cast<QCheckBox *>(editor);
     bool value = (cb->checkState() == Qt::Checked)? true : false;
+
     model->setData(index, value, Qt::EditRole);
 }
 

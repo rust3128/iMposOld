@@ -28,9 +28,11 @@ SOURCES += \
         CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
+        FuelNameWizard/finalpage.cpp \
         FuelNameWizard/fuelnamewizard.cpp \
         FuelNameWizard/intropage.cpp \
         FuelNameWizard/selectterminalpage.cpp \
+        FuelNameWizard/showfuelnamepage.cpp \
         GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
@@ -44,10 +46,12 @@ HEADERS += \
         CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
+        FuelNameWizard/finalpage.h \
         FuelNameWizard/fuelnamewizard.h \
         FuelNameWizard/intropage.h \
         FuelNameWizard/pagelist.h \
         FuelNameWizard/selectterminalpage.h \
+        FuelNameWizard/showfuelnamepage.h \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
@@ -58,9 +62,11 @@ HEADERS += \
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
+        FuelNameWizard/finalpage.ui \
         FuelNameWizard/fuelnamewizard.ui \
         FuelNameWizard/intropage.ui \
         FuelNameWizard/selectterminalpage.ui \
+        FuelNameWizard/showfuelnamepage.ui \
         LoginDialog/logindialog.ui \
         OptionsDialog/optionsdialog.ui \
         mainwindow.ui

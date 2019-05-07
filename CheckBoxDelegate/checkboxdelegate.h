@@ -1,11 +1,13 @@
 #ifndef CHECKBOXDELEGATE_H
 #define CHECKBOXDELEGATE_H
 #include <QStyledItemDelegate>
+#include <QObject>
 
 
 class CheckBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
+
 
 public:
     CheckBoxDelegate(QObject *parent = nullptr);
