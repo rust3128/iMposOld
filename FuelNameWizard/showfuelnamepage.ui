@@ -6,13 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
-    <height>508</height>
+    <width>782</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>WizardPage</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Получение наименований топлива   </string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QTableWidget" name="tableWidget"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

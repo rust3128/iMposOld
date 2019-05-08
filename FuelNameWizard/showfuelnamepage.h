@@ -15,10 +15,17 @@ public:
     explicit ShowFuelNamePage(QWidget *parent = nullptr);
     ~ShowFuelNamePage();
 
+public slots:
+    void slotGetListTerm(QStringList list);
 private:
     Ui::ShowFuelNamePage *ui;
+    QStringList m_listTerm;
 private:
     void createUI();
+
+    // QWizardPage interface
+public:
+    void initializePage();
 };
 
 #endif // SHOWFUELNAMEPAGE_H

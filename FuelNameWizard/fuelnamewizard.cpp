@@ -23,9 +23,16 @@ void FuelNameWizard::createWizardPage()
     m_finalPage = new FinalPage();
     m_showFuelName = new ShowFuelNamePage();
 
+    createConnections();
+
     this->setPage(INTRO_PAGE, m_introPage);
     this->setPage(SELECT_TERMINAL_PAGE, m_terminalPage);
     this->setPage(FINAL_PAGE, m_finalPage);
     this->setPage(SHOW_FUELNAME_PAGE, m_showFuelName);
     this->setStartId(INTRO_PAGE);
+}
+
+void FuelNameWizard::createConnections()
+{
+    connect(m_terminalPage, &SelectTerminalPage::signalSendTermList,m_showFuelName,&ShowFuelNamePage::slotGetListTerm);
 }

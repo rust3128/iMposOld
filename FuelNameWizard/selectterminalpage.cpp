@@ -87,7 +87,13 @@ bool SelectTerminalPage::validatePage()
         if(item->checkState() == Qt::Checked)
             m_terminalsGo.append(item->text());
     }
-    return (m_terminalsGo.size()>0) ? true : false;
+
+    if(m_terminalsGo.size()>0){
+        emit signalSendTermList(m_terminalsGo);
+        return true;
+    } else {
+        return false;
+    }
 
 }
 

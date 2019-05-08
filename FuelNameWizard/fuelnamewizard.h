@@ -27,6 +27,7 @@ private:
     ShowFuelNamePage *m_showFuelName;
 private:
     void createWizardPage();
+    void createConnections();
 };
 
 #endif // FUELNAMEWIZARD_H
