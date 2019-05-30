@@ -17,11 +17,13 @@ public:
 
 public slots:
     void slotGetListTerm(QStringList list);
+    void slotStartGetFuel();
 private:
     Ui::ShowFuelNamePage *ui;
     QStringList m_listTerm;
 private:
     void createUI();
+    void fuelNameList(QString terminal);
 
     // QWizardPage interface
 public:

@@ -33,11 +33,13 @@ SOURCES += \
         FuelNameWizard/intropage.cpp \
         FuelNameWizard/selectterminalpage.cpp \
         FuelNameWizard/showfuelnamepage.cpp \
+        GetFuelNameClass/getfuelnameclass.cpp \
         GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
         ModelTerminals/modelterminals.cpp \
         OptionsDialog/optionsdialog.cpp \
+        ProgressBarDelegate/progressbardelegate.cpp \
         TerminalClass/terminalclass.cpp \
         main.cpp \
         mainwindow.cpp
@@ -52,11 +54,13 @@ HEADERS += \
         FuelNameWizard/pagelist.h \
         FuelNameWizard/selectterminalpage.h \
         FuelNameWizard/showfuelnamepage.h \
+        GetFuelNameClass/getfuelnameclass.h \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         ModelTerminals/modelterminals.h \
         OptionsDialog/optionsdialog.h \
+        ProgressBarDelegate/progressbardelegate.h \
         TerminalClass/terminalclass.h \
         mainwindow.h
 
