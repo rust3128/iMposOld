@@ -54,6 +54,7 @@ HEADERS += \
         FuelNameWizard/pagelist.h \
         FuelNameWizard/selectterminalpage.h \
         FuelNameWizard/showfuelnamepage.h \
+        FuelNameWizard/statusthread.h \
         GetFuelNameClass/getfuelnameclass.h \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \
@@ -62,7 +63,8 @@ HEADERS += \
         OptionsDialog/optionsdialog.h \
         ProgressBarDelegate/progressbardelegate.h \
         TerminalClass/terminalclass.h \
-        mainwindow.h
+        mainwindow.h \
+        passconv.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \

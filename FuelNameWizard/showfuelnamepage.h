@@ -1,7 +1,10 @@
 #ifndef SHOWFUELNAMEPAGE_H
 #define SHOWFUELNAMEPAGE_H
 
+#include "statusthread.h"
 #include <QWizardPage>
+#include <QSqlQuery>
+#include <QSqlError>
 
 namespace Ui {
 class ShowFuelNamePage;
@@ -17,13 +20,16 @@ public:
 
 public slots:
     void slotGetListTerm(QStringList list);
-    void slotStartGetFuel();
+    void slotGetStatusThread(statusThread stTh);
 private:
     Ui::ShowFuelNamePage *ui;
     QStringList m_listTerm;
+    QStringList statusList;
+    QList<QStringList> listConnections;
 private:
     void createUI();
-    void fuelNameList(QString terminal);
+    void fuelNameList(QStringList connList);
+    void getConnectionsInfo();
 
     // QWizardPage interface
 public:
