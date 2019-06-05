@@ -1,11 +1,6 @@
 #include "getfuelnameclass.h"
 #include "LoggingCategories/loggingcategories.h"
 
-enum statusList {
-    CONNECT_TO_DATABASE,
-    SELECT_FUEL_NAME,
-    FINISHED
-};
 
 
 GetFuelNameClass::GetFuelNameClass(QStringList connList, QObject *parent) :
@@ -23,15 +18,18 @@ void GetFuelNameClass::getFuelList()
     currentStatus.currentStatus=CONNECT_TO_DATABASE;
     emit signalSendStatus(currentStatus);
 
+    QSqlDatabase db = QSqlDatabase::addDatabase("QIBASE", m_connList[0]);
 
+    db.setHostName(m_connList[1]);
+    db.setDatabaseName(m_connList[2]);
+    db.setUserName("SYSDBA");
+    db.setPassword(m_connList[3]);
 
-//    QSqlQuery q;
-//    q.prepare("select c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD from CONNECTIONS c "
-//              "where c.TERMINAL_ID=:terminalID and c.CONNECT_ID=2");
-//    q.bindValue(":terminalID", m_terminalID);
-//    if(!q.exec()) qCritical(logCritical()) << "Не возможно получить данные о подключении АЗС" << q.lastError().text();
-//    q.next();
-//    qInfo(logInfo()) << q.value(0).toString();
+    if(!db.open()){
+        qCritical(logCritical()) << Q_FUNC_INFO << "Не возможно подключится к базе данных АСЗ" << m_connList[0] << db.lastError().text();
+    }
+    currentStatus.currentStatus=SELECT_FUEL_NAME;
+    emit signalSendStatus(currentStatus);
 
     emit finisList();
 }

@@ -2,6 +2,7 @@
 #define SHOWFUELNAMEPAGE_H
 
 #include "statusthread.h"
+#include "GetConnectionOptionsClass/getconnectionoptionsclass.h"
 #include <QWizardPage>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -17,7 +18,14 @@ class ShowFuelNamePage : public QWizardPage
 public:
     explicit ShowFuelNamePage(QWidget *parent = nullptr);
     ~ShowFuelNamePage();
-
+signals:
+    void signalGoFuelName();
+private slots:
+    void slotStartConnectionsList();
+    void slotAzsComplete();
+    void slotGetConnectionsList(QList<QStringList> list);
+    void slotFinishConnectionsList();
+    void fuelNameList();
 public slots:
     void slotGetListTerm(QStringList list);
     void slotGetStatusThread(statusThread stTh);
@@ -28,8 +36,7 @@ private:
     QList<QStringList> listConnections;
 private:
     void createUI();
-    void fuelNameList(QStringList connList);
-    void getConnectionsInfo();
+
 
     // QWizardPage interface
 public:

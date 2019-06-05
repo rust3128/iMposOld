@@ -33,6 +33,7 @@ SOURCES += \
         FuelNameWizard/intropage.cpp \
         FuelNameWizard/selectterminalpage.cpp \
         FuelNameWizard/showfuelnamepage.cpp \
+        GetConnectionOptionsClass/getconnectionoptionsclass.cpp \
         GetFuelNameClass/getfuelnameclass.cpp \
         GetOptionsData/getoptionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
         FuelNameWizard/selectterminalpage.h \
         FuelNameWizard/showfuelnamepage.h \
         FuelNameWizard/statusthread.h \
+        GetConnectionOptionsClass/getconnectionoptionsclass.h \
         GetFuelNameClass/getfuelnameclass.h \
         GetOptionsData/getoptionsdata.h \
         LoggingCategories/loggingcategories.h \

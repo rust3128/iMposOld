@@ -16,8 +16,10 @@ ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
     createUI();
 
     statusList << "Подключение к базе данных АЗС..."
-               << "Получение списка фидов топлива...."
+               << "Получение списка видов топлива...."
                << "Готово.";
+
+    connect(this,&ShowFuelNamePage::signalGoFuelName,this,&ShowFuelNamePage::fuelNameList);
 }
 
 ShowFuelNamePage::~ShowFuelNamePage()
@@ -25,30 +27,13 @@ ShowFuelNamePage::~ShowFuelNamePage()
     delete ui;
 }
 
+
 void ShowFuelNamePage::slotGetListTerm(QStringList list)
 {
     m_listTerm.clear();
     m_listTerm = list;
-    qInfo(logInfo()) << m_listTerm;
 }
 
-void ShowFuelNamePage::getConnectionsInfo()
-{
-    static int colTerm = m_listTerm.size();
-    QSqlQuery q;
-    for(int i=0;i<colTerm;++i){
-            q.prepare("select c.TERMINAL_ID, c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD from CONNECTIONS c "
-                      "where c.TERMINAL_ID=:terminalID and c.CONNECT_ID=2");
-            q.bindValue(":terminalID", m_listTerm.at(i));
-            if(!q.exec()) qCritical(logCritical()) << "Не возможно получить данные о подключении АЗС" << q.lastError().text();
-            q.next();
-            QStringList list;
-            list << q.value(0).toString() << q.value(1).toString() << q.value(2).toString()  << passConv(q.value(3).toString());
-            listConnections.append(list);
-
-    }
-//    qInfo(logInfo()) << listConnections;
-}
 
 
 void ShowFuelNamePage::createUI()
@@ -56,13 +41,18 @@ void ShowFuelNamePage::createUI()
     this->setTitle("<html><head/><body><p><span style='font-size:18pt; font-weight:600;color:blue'>Наименования топлива на АЗС.</span></p></body></html>");
     ui->groupBoxGetFuelName->hide();
 
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->horizontalHeader()->hide();
+    ui->tableWidget->verticalHeader()->hide();
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+
 }
 
 
 
 void ShowFuelNamePage::initializePage()
 {
-    QApplication::processEvents();
+
 //    ui->tableWidget->setColumnCount(2);
 //    ui->tableWidget->horizontalHeader()->hide();
 //    ui->tableWidget->verticalHeader()->hide();
@@ -76,44 +66,93 @@ void ShowFuelNamePage::initializePage()
 //        fuelNameList(listConnections.at(i));
 //    }
 //    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-    static int colTerm = m_listTerm.size();
-    ui->progressBar->setRange(0,colTerm);
-    ui->progressBar->setFormat("Получено %v из %m");
-    int progress = 0;
-    QSqlQuery q;
-    for(int i=0;i<colTerm;++i){
-            q.prepare("select c.TERMINAL_ID, c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD from CONNECTIONS c "
-                      "where c.TERMINAL_ID=:terminalID and c.CONNECT_ID=2");
-            q.bindValue(":terminalID", m_listTerm.at(i));
-            if(!q.exec()) qCritical(logCritical()) << "Не возможно получить данные о подключении АЗС" << q.lastError().text();
-            q.next();
-            QStringList list;
-            list << q.value(0).toString() << q.value(1).toString() << q.value(2).toString()  << passConv(q.value(3).toString());
-            listConnections.append(list);
-            QApplication::processEvents();
-            ++progress;
-            ui->progressBar->setValue(progress);
-    }
+
+    //    emit signalCheckArticles();
+
+        //Создаем объект класса и передаем ему параметры
+        GetConnectionOptionsClass *lsConnnecions = new GetConnectionOptionsClass(m_listTerm);
+        //Создаем поток в которм будут производиться наша выборка
+        QThread *thread = new QThread();
+        //Перемещаем объект класса в поток
+        lsConnnecions->moveToThread(thread);
+
+        ////Сигналы и слоты для взаимидействия с потоком
+
+        //при старте потока выполняем некоторые действия в текущем потоке.
+        //В моем случае на просто засекаю начало выбоки данных
+        connect(thread,&QThread::started,this,&ShowFuelNamePage::slotStartConnectionsList);
+        //При старте потока начинаем выборку данных
+        connect(thread,&QThread::started,lsConnnecions,&GetConnectionOptionsClass::slotGetConnOptions);
+
+        connect(lsConnnecions,&GetConnectionOptionsClass::signalAzsComplete,this,&ShowFuelNamePage::slotAzsComplete);
+
+        connect(lsConnnecions,&GetConnectionOptionsClass::signalSendConnOptions,this,&ShowFuelNamePage::slotGetConnectionsList,Qt::DirectConnection);
 
 
+        //Окончание работы потока по завершению выбрки данных
+        connect(lsConnnecions,&GetConnectionOptionsClass::signalFinished,thread,&QThread::quit);
+        //Удаляем объект в потоке
+        connect(lsConnnecions,&GetConnectionOptionsClass::signalFinished,lsConnnecions,&GetConnectionOptionsClass::deleteLater);
+        //Вы полняем действия по в основном потоке после завершения дочернего
+        connect(lsConnnecions,&GetConnectionOptionsClass::signalFinished,this,&ShowFuelNamePage::slotFinishConnectionsList);
+        //Прощаемся с дочерним потоком
+        connect(thread,&QThread::finished,thread,&QThread::deleteLater);
+
+        //Запускаем поток
+        thread->start();
 }
 
-void ShowFuelNamePage::fuelNameList(QStringList connList)
+
+void ShowFuelNamePage::slotStartConnectionsList()
 {
-    GetFuelNameClass *getFuel = new GetFuelNameClass(connList);
-    QThread *thread = new QThread();
+    ui->progressBar->setRange(0,m_listTerm.size());
+    ui->progressBar->setFormat("Обработано %v из %m");
+    ui->progressBar->setValue(0);
+}
 
-    getFuel->moveToThread(thread);
+void ShowFuelNamePage::slotAzsComplete()
+{
+    ui->progressBar->setValue(ui->progressBar->value()+1);
+}
 
-    connect(thread,&QThread::started, getFuel, &GetFuelNameClass::getFuelList);
+void ShowFuelNamePage::slotGetConnectionsList(QList<QStringList> list)
+{
+    listConnections = list;
+}
 
-    connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread);
+void ShowFuelNamePage::slotFinishConnectionsList()
+{
+    ui->groupBoxGetFuelName->show();
+    ui->groupBoxProgress->hide();
+    qInfo(logInfo()) << listConnections;
 
-    connect(getFuel, &GetFuelNameClass::finisList, thread, &QThread::quit);
-    connect(getFuel, &GetFuelNameClass::finisList, getFuel, &GetFuelNameClass::deleteLater);
-    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+    emit signalGoFuelName();
+}
 
-    thread->start();
+
+void ShowFuelNamePage::fuelNameList()
+{
+
+
+
+
+    static int rowCount =listConnections.size();
+    for(int i=0; i<rowCount; ++i){
+        GetFuelNameClass *getFuel = new GetFuelNameClass(listConnections.at(i));
+        QThread *thread = new QThread();
+
+        getFuel->moveToThread(thread);
+
+        connect(thread,&QThread::started, getFuel, &GetFuelNameClass::getFuelList);
+
+        connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread);
+
+        connect(getFuel, &GetFuelNameClass::finisList, thread, &QThread::quit);
+        connect(getFuel, &GetFuelNameClass::finisList, getFuel, &GetFuelNameClass::deleteLater);
+        connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+
+        thread->start();
+    }
 
 }
 
@@ -122,6 +161,26 @@ void ShowFuelNamePage::fuelNameList(QStringList connList)
 void ShowFuelNamePage::slotGetStatusThread(statusThread stTh)
 {
     qInfo(logInfo()) << "hello from thread" << stTh.terminalId << statusList[stTh.currentStatus];
+    int row;
+    switch (stTh.currentStatus) {
+    case CONNECT_TO_DATABASE:
+        row = ui->tableWidget->rowCount();
+        ui->tableWidget->insertRow(row);
+        ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(stTh.terminalId)));
+        ui->tableWidget->setItem(row,1, new QTableWidgetItem(statusList[stTh.currentStatus]));
+        break;
+    case SELECT_FUEL_NAME:
+        int rowCount = ui->tableWidget->rowCount();
+        for(int i = 0; i<rowCount; ++i) {
+            if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
+                ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
+                ui->tableWidget->item(i,1)->setTextColor("Green");
+                break;
+            }
+        }
+    break;
+    }
+
 }
 
 
