@@ -27,6 +27,10 @@ void GetFuelNameClass::getFuelList()
 
     if(!db.open()){
         qCritical(logCritical()) << Q_FUNC_INFO << "Не возможно подключится к базе данных АСЗ" << m_connList[0] << db.lastError().text();
+        currentStatus.currentStatus=ERROR_OPEN_DATABASE;
+        emit signalSendStatus(currentStatus);
+        emit finisList();
+        return;
     }
     currentStatus.currentStatus=SELECT_FUEL_NAME;
     emit signalSendStatus(currentStatus);

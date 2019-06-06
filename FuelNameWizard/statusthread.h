@@ -11,7 +11,8 @@ struct statusThread
 enum statusList {
     CONNECT_TO_DATABASE,
     SELECT_FUEL_NAME,
-    FINISHED
+    FINISHED,
+    ERROR_OPEN_DATABASE
 };
 
 

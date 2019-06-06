@@ -6,6 +6,7 @@
 #include "passconv.h"
 
 #include <QObject>
+#include <QSettings>
 #include <QSqlQuery>
 #include <QSqlError>
 

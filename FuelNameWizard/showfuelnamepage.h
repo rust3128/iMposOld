@@ -28,14 +28,18 @@ private slots:
     void fuelNameList();
 public slots:
     void slotGetListTerm(QStringList list);
-    void slotGetStatusThread(statusThread stTh);
+    void slotGetStatusThread(statusThread status);
 private:
     Ui::ShowFuelNamePage *ui;
     QStringList m_listTerm;
     QStringList statusList;
     QList<QStringList> listConnections;
+    statusThread stTh;
 private:
     void createUI();
+    void statusConnectToDatabase();
+    void statusSelectFuelName();
+    void statusErrorConnectDatabase();
 
 
     // QWizardPage interface

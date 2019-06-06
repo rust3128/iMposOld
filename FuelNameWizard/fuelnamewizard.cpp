@@ -8,6 +8,12 @@ FuelNameWizard::FuelNameWizard(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QList<QWizard::WizardButton> button_layout;
+    button_layout << QWizard::Stretch <<
+                     QWizard::NextButton <<
+                     QWizard::CancelButton;
+    this->setButtonLayout(button_layout);
+
     createWizardPage();
 }
 

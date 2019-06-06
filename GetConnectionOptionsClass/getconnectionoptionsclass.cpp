@@ -8,12 +8,29 @@ GetConnectionOptionsClass::GetConnectionOptionsClass(QStringList list, QObject *
 
 void GetConnectionOptionsClass::slotGetConnOptions()
 {
-    DataBases *db = new DataBases();
-    if(!db->connectCentralDatabase()){
-        qCritical(logCritical()) << Q_FUNC_INFO  << "Ошибка открытия баз данных.";
+//    DataBases *db = new DataBases();
+//    if(!db->connectCentralDatabase()){
+//        qCritical(logCritical()) << Q_FUNC_INFO  << "Ошибка открытия баз данных.";
+//        emit signalFinished();
+//    }
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QIBASE","cent");
+
+    QSettings settings("MposInstruments.cfg", QSettings::IniFormat);
+
+    settings.beginGroup("DATABASE");
+    db.setHostName(settings.value("HostName").toString());
+    db.setDatabaseName(settings.value("DataBase").toString());
+    db.setUserName(settings.value("User").toString());
+    db.setPassword(settings.value("Password").toString());
+    settings.endGroup();
+
+    if(!db.open()) {
+        qCritical(logCritical()) <<  "Не возможно подключиться к базе данных." << endl << "Причина:" << db.lastError().text();
         emit signalFinished();
     }
-    QSqlQuery q;
+
+    QSqlQuery q = QSqlQuery(db);
     static int colTerm = m_listTerm.size();
     for(int i=0;i<colTerm;++i){
             q.prepare("select c.TERMINAL_ID, c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD from CONNECTIONS c "

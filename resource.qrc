@@ -7,5 +7,9 @@
         <file>Picts/unselectAll.png</file>
         <file>Picts/arrowleft.png</file>
         <file>Picts/arrowright.png</file>
+        <file>Picts/database.png</file>
+        <file>Picts/selectfuel.png</file>
+        <file>Picts/error.png</file>
+        <file>Picts/GasStation.png</file>
     </qresource>
 </RCC>

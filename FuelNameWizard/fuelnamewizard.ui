@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Wizard</string>
   </property>
-  <property name="options">
-   <set>QWizard::NoBackButtonOnStartPage</set>
-  </property>
  </widget>
  <resources/>
  <connections/>

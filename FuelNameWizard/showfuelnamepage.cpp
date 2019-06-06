@@ -7,6 +7,7 @@
 
 #include <QTableWidgetItem>
 #include <QThread>
+#include <QIcon>
 
 ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
     QWizardPage(parent),
@@ -17,7 +18,10 @@ ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
 
     statusList << "Подключение к базе данных АЗС..."
                << "Получение списка видов топлива...."
-               << "Готово.";
+               << "Готово."
+               << "Ошибка открытия базы данных АЗС!";
+
+
 
     connect(this,&ShowFuelNamePage::signalGoFuelName,this,&ShowFuelNamePage::fuelNameList);
 }
@@ -42,32 +46,15 @@ void ShowFuelNamePage::createUI()
     ui->groupBoxGetFuelName->hide();
 
     ui->tableWidget->setColumnCount(2);
-    ui->tableWidget->horizontalHeader()->hide();
+    //ui->tableWidget->horizontalHeader()->hide();
     ui->tableWidget->verticalHeader()->hide();
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "АЗС" << "Статус");
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
 
 }
 
-
-
 void ShowFuelNamePage::initializePage()
 {
-
-//    ui->tableWidget->setColumnCount(2);
-//    ui->tableWidget->horizontalHeader()->hide();
-//    ui->tableWidget->verticalHeader()->hide();
-//    getConnectionsInfo();
-//    static int rowCount = m_listTerm.size();
-//    for(int i=0; i<rowCount; ++i){
-//        ui->tableWidget->insertRow(i);
-//        ui->tableWidget->setItem(i,0, new QTableWidgetItem(m_listTerm.at(i)));
-//        ui->tableWidget->setItem(i,1, new QTableWidgetItem("Ждем..."));
-////        ui->tableWidget->setItemDelegateForColumn(1, new ProgressBarDelegate);
-//        fuelNameList(listConnections.at(i));
-//    }
-//    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-
-    //    emit signalCheckArticles();
 
         //Создаем объект класса и передаем ему параметры
         GetConnectionOptionsClass *lsConnnecions = new GetConnectionOptionsClass(m_listTerm);
@@ -117,6 +104,7 @@ void ShowFuelNamePage::slotAzsComplete()
 
 void ShowFuelNamePage::slotGetConnectionsList(QList<QStringList> list)
 {
+    listConnections.clear();
     listConnections = list;
 }
 
@@ -124,7 +112,8 @@ void ShowFuelNamePage::slotFinishConnectionsList()
 {
     ui->groupBoxGetFuelName->show();
     ui->groupBoxProgress->hide();
-    qInfo(logInfo()) << listConnections;
+    qInfo(logInfo()) << "АЗС для обработки" << m_listTerm.size() << "Списокв подключения" << listConnections.size();
+
 
     emit signalGoFuelName();
 }
@@ -132,9 +121,6 @@ void ShowFuelNamePage::slotFinishConnectionsList()
 
 void ShowFuelNamePage::fuelNameList()
 {
-
-
-
 
     static int rowCount =listConnections.size();
     for(int i=0; i<rowCount; ++i){
@@ -147,8 +133,9 @@ void ShowFuelNamePage::fuelNameList()
 
         connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread);
 
-        connect(getFuel, &GetFuelNameClass::finisList, thread, &QThread::quit);
         connect(getFuel, &GetFuelNameClass::finisList, getFuel, &GetFuelNameClass::deleteLater);
+        connect(getFuel, &GetFuelNameClass::finisList, thread, &QThread::quit);
+
         connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 
         thread->start();
@@ -158,29 +145,63 @@ void ShowFuelNamePage::fuelNameList()
 
 
 
-void ShowFuelNamePage::slotGetStatusThread(statusThread stTh)
+void ShowFuelNamePage::slotGetStatusThread(statusThread status)
 {
     qInfo(logInfo()) << "hello from thread" << stTh.terminalId << statusList[stTh.currentStatus];
-    int row;
+    stTh=status;
+
+
     switch (stTh.currentStatus) {
     case CONNECT_TO_DATABASE:
-        row = ui->tableWidget->rowCount();
-        ui->tableWidget->insertRow(row);
-        ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(stTh.terminalId)));
-        ui->tableWidget->setItem(row,1, new QTableWidgetItem(statusList[stTh.currentStatus]));
+        statusConnectToDatabase();
         break;
     case SELECT_FUEL_NAME:
-        int rowCount = ui->tableWidget->rowCount();
-        for(int i = 0; i<rowCount; ++i) {
-            if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
-                ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
-                ui->tableWidget->item(i,1)->setTextColor("Green");
-                break;
-            }
-        }
-    break;
+        statusSelectFuelName();
+        break;
+    case ERROR_OPEN_DATABASE:
+        statusErrorConnectDatabase();
+        break;
+    default:
+        break;
     }
+}
 
+void ShowFuelNamePage::statusConnectToDatabase()
+{
+    int row = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+    ui->tableWidget->setItem(row,0, new QTableWidgetItem(QString::number(stTh.terminalId)));
+    ui->tableWidget->setItem(row,1, new QTableWidgetItem(statusList[stTh.currentStatus]));
+    ui->tableWidget->item(row,0)->setIcon(QIcon(":/Picts/GasStation.png"));
+    ui->tableWidget->item(row,1)->setIcon(QIcon(":/Picts/database.png"));
+    ui->tableWidget->item(row,1)->setBackgroundColor("#F4FA58");
+    ui->tableWidget->verticalHeader()->setDefaultSectionSize(36);
+}
+
+void ShowFuelNamePage::statusSelectFuelName()
+{
+    int rowCount = ui->tableWidget->rowCount();
+    for(int i = 0; i<rowCount; ++i) {
+        if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
+            ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
+            ui->tableWidget->item(i,1)->setBackgroundColor("#D7DF01");
+            ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/selectfuel.png"));
+            break;
+        }
+    }
+}
+
+void ShowFuelNamePage::statusErrorConnectDatabase()
+{
+    int rowCount = ui->tableWidget->rowCount();
+    for(int i = 0; i<rowCount; ++i) {
+        if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
+            ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
+            ui->tableWidget->item(i,1)->setBackgroundColor("#FE2E2E");
+            ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/error.png"));
+            break;
+        }
+    }
 }
 
 
