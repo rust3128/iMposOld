@@ -35,5 +35,21 @@ void GetFuelNameClass::getFuelList()
     currentStatus.currentStatus=SELECT_FUEL_NAME;
     emit signalSendStatus(currentStatus);
 
+    QSqlQuery q = QSqlQuery(db);
+
+    q.prepare("select t.TANK_ID, f.FUEL_ID, f.SHORTNAME, f.NAME from FUELS f "
+              "LEFT JOIN tanks t ON t.FUEL_ID = f.FUEL_ID "
+              "where f.ISACTIVE='T' "
+              "order by t.TANK_ID");
+    if(!q.exec()) {
+        qCritical(logCritical()) << Q_FUNC_INFO << "Не возможно получить список видов топлива с АЗС." << m_connList[0] << q.lastError().text();
+        currentStatus.currentStatus=ERROR_GET_FUEL_NAME;
+        emit signalSendStatus(currentStatus);
+        emit finisList();
+        return;
+    }
+
+
+
     emit finisList();
 }

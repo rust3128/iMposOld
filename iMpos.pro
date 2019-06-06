@@ -25,9 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        AzsFuelName/azsfuelname.cpp \
         CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
+        FuelName/fuelname.cpp \
         FuelNameWizard/finalpage.cpp \
         FuelNameWizard/fuelnamewizard.cpp \
         FuelNameWizard/intropage.cpp \
@@ -46,9 +48,11 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        AzsFuelName/azsfuelname.h \
         CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
+        FuelName/fuelname.h \
         FuelNameWizard/finalpage.h \
         FuelNameWizard/fuelnamewizard.h \
         FuelNameWizard/intropage.h \
