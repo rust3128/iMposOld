@@ -11,6 +11,7 @@ SelectTerminalPage::SelectTerminalPage(QWidget *parent) :
     ui->setupUi(this);
 
     createUI();
+    m_terminalsGo.clear();
 }
 
 SelectTerminalPage::~SelectTerminalPage()

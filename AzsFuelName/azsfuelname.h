@@ -13,8 +13,8 @@ public:
 
     int getTerminalID() const;
     void setTerminalID(int value);
-
     void insertFuelName(int tID, int fID, QString sN, QString n);
+    QList<FuelName> getListFuel() const;
 
 private:
     int terminalID;

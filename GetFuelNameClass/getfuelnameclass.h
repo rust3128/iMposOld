@@ -2,7 +2,8 @@
 #define GETFUELNAMECLASS_H
 
 #include "FuelNameWizard/statusthread.h"
-#include "DataBases/databases.h"
+#include "AzsFuelName/azsfuelname.h"
+
 #include <QObject>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -17,12 +18,14 @@ public:
 signals:
     void finisList();
     void signalSendStatus(statusThread);
+    void signalSendAzsFuelName(AzsFuelName);
 
 public slots:
     void getFuelList();
 private:
     QStringList m_connList;
     statusThread currentStatus;
+
 };
 
 #endif // GETFUELNAMECLASS_H

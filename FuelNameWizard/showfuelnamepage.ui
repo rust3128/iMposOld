@@ -14,29 +14,13 @@
    <string>WizardPage</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,1">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBoxProgress">
-     <property name="title">
-      <string>Получение списка подключений....</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QProgressBar" name="progressBar">
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBoxGetFuelName">
      <property name="title">
       <string>Получение наименований топлива   </string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="0" column="1">
        <widget class="QTableWidget" name="tableWidget">
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
@@ -49,6 +33,32 @@
           <width>32</width>
           <height>32</height>
          </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QProgressBar" name="progressBarFuel">
+        <property name="value">
+         <number>24</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBoxProgress">
+     <property name="title">
+      <string>Получение списка подключений....</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>24</number>
         </property>
        </widget>
       </item>

@@ -48,8 +48,13 @@ void GetFuelNameClass::getFuelList()
         emit finisList();
         return;
     }
-
-
-
+    AzsFuelName aFuelName;
+    aFuelName.setTerminalID(m_connList[0].toInt());
+    while(q.next()){
+        aFuelName.insertFuelName(q.value(0).toInt(),q.value(1).toInt(),q.value(2).toString(),q.value(3).toString());
+    }
+    currentStatus.currentStatus=FINISHED;
+    emit signalSendAzsFuelName(aFuelName);
+    emit signalSendStatus(currentStatus);
     emit finisList();
 }

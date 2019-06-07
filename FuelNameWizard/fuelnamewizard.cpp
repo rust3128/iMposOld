@@ -11,6 +11,7 @@ FuelNameWizard::FuelNameWizard(QWidget *parent) :
     QList<QWizard::WizardButton> button_layout;
     button_layout << QWizard::Stretch <<
                      QWizard::NextButton <<
+                     QWizard::FinishButton <<
                      QWizard::CancelButton;
     this->setButtonLayout(button_layout);
 

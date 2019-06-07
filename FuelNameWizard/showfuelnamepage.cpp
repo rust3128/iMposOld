@@ -22,7 +22,7 @@ ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
                << "Ошибка открытия базы данных АЗС!"
                << "Ошибка получения списка наименований топлива";
 
-
+    m_listTerm.clear();
 
     connect(this,&ShowFuelNamePage::signalGoFuelName,this,&ShowFuelNamePage::fuelNameList);
 }
@@ -37,6 +37,8 @@ void ShowFuelNamePage::slotGetListTerm(QStringList list)
 {
     m_listTerm.clear();
     m_listTerm = list;
+
+    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << list;
 }
 
 
@@ -45,6 +47,8 @@ void ShowFuelNamePage::createUI()
 {
     this->setTitle("<html><head/><body><p><span style='font-size:18pt; font-weight:600;color:blue'>Наименования топлива на АЗС.</span></p></body></html>");
     ui->groupBoxGetFuelName->hide();
+
+    qInfo(logInfo()) << "Function" << Q_FUNC_INFO;
 
     ui->tableWidget->setColumnCount(2);
     //ui->tableWidget->horizontalHeader()->hide();
@@ -57,8 +61,12 @@ void ShowFuelNamePage::createUI()
 void ShowFuelNamePage::initializePage()
 {
 
+    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << m_listTerm;
         //Создаем объект класса и передаем ему параметры
         GetConnectionOptionsClass *lsConnnecions = new GetConnectionOptionsClass(m_listTerm);
+
+
+
         //Создаем поток в которм будут производиться наша выборка
         QThread *thread = new QThread();
         //Перемещаем объект класса в поток
@@ -103,18 +111,22 @@ void ShowFuelNamePage::slotAzsComplete()
     ui->progressBar->setValue(ui->progressBar->value()+1);
 }
 
+
+
 void ShowFuelNamePage::slotGetConnectionsList(QList<QStringList> list)
 {
     listConnections.clear();
     listConnections = list;
+    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << listConnections;
+
 }
 
 void ShowFuelNamePage::slotFinishConnectionsList()
 {
     ui->groupBoxGetFuelName->show();
     ui->groupBoxProgress->hide();
-    qInfo(logInfo()) << "АЗС для обработки" << m_listTerm.size() << "Списокв подключения" << listConnections.size();
-
+//    qInfo(logInfo()) << "АЗС для обработки" << m_listTerm.size() << "Списокв подключения" << listConnections.size();
+    qInfo(logInfo()) << "Function" << Q_FUNC_INFO;
 
     emit signalGoFuelName();
 }
@@ -123,16 +135,21 @@ void ShowFuelNamePage::slotFinishConnectionsList()
 void ShowFuelNamePage::fuelNameList()
 {
 
-    static int rowCount =listConnections.size();
+    int rowCount =listConnections.size();
+    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << listConnections;
     for(int i=0; i<rowCount; ++i){
         GetFuelNameClass *getFuel = new GetFuelNameClass(listConnections.at(i));
         QThread *thread = new QThread();
 
         getFuel->moveToThread(thread);
 
+
+        connect(thread,&QThread::started,this,&ShowFuelNamePage::slotStartGetFuelName);
         connect(thread,&QThread::started, getFuel, &GetFuelNameClass::getFuelList);
 
         connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread);
+
+        connect(getFuel,&GetFuelNameClass::signalSendAzsFuelName,this,&ShowFuelNamePage::slotGetAzsFuelName,Qt::DirectConnection);
 
         connect(getFuel, &GetFuelNameClass::finisList, getFuel, &GetFuelNameClass::deleteLater);
         connect(getFuel, &GetFuelNameClass::finisList, thread, &QThread::quit);
@@ -144,11 +161,24 @@ void ShowFuelNamePage::fuelNameList()
 
 }
 
+void ShowFuelNamePage::slotStartGetFuelName()
+{
+    ui->progressBarFuel->setRange(0, m_listTerm.size());
+    ui->progressBarFuel->setValue(0);
+}
+
+
+void ShowFuelNamePage::slotGetAzsFuelName(AzsFuelName aFN)
+{
+
+//    qInfo(logInfo()) << "Terminal ID" << aFN.getTerminalID();
+//    qInfo(logInfo()) << aFN.getListFuel().at(0).getName() ;
+}
 
 
 void ShowFuelNamePage::slotGetStatusThread(statusThread status)
 {
-    qInfo(logInfo()) << "hello from thread" << stTh.terminalId << statusList[stTh.currentStatus];
+//    qInfo(logInfo()) << "hello from thread" << stTh.terminalId << statusList[stTh.currentStatus];
     stTh=status;
 
 
@@ -161,11 +191,18 @@ void ShowFuelNamePage::slotGetStatusThread(statusThread status)
         break;
     case ERROR_OPEN_DATABASE:
         statusErrorConnectDatabase();
+        ui->progressBarFuel->setValue(ui->progressBarFuel->value()+1);
+        break;
+    case FINISHED:
+        statusFinished();
+        ui->progressBarFuel->setValue(ui->progressBarFuel->value()+1);
         break;
     default:
         break;
     }
 }
+
+
 
 void ShowFuelNamePage::statusConnectToDatabase()
 {
@@ -200,6 +237,20 @@ void ShowFuelNamePage::statusErrorConnectDatabase()
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
             ui->tableWidget->item(i,1)->setBackgroundColor("#FE2E2E");
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/error.png"));
+            break;
+        }
+    }
+}
+
+void ShowFuelNamePage::statusFinished()
+{
+    int rowCount = ui->tableWidget->rowCount();
+    for(int i = 0; i<rowCount; ++i) {
+        if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
+            ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
+            ui->tableWidget->item(i,1)->setBackgroundColor("#BFFF00");
+            ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/Accept.png"));
+
             break;
         }
     }

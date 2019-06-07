@@ -11,5 +11,6 @@
         <file>Picts/selectfuel.png</file>
         <file>Picts/error.png</file>
         <file>Picts/GasStation.png</file>
+        <file>Picts/Accept.png</file>
     </qresource>
 </RCC>

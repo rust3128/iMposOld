@@ -3,6 +3,7 @@
 
 #include "statusthread.h"
 #include "GetConnectionOptionsClass/getconnectionoptionsclass.h"
+#include "AzsFuelName/azsfuelname.h"
 #include <QWizardPage>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -23,23 +24,27 @@ signals:
 private slots:
     void slotStartConnectionsList();
     void slotAzsComplete();
+    void slotStartGetFuelName();
     void slotGetConnectionsList(QList<QStringList> list);
     void slotFinishConnectionsList();
     void fuelNameList();
 public slots:
     void slotGetListTerm(QStringList list);
     void slotGetStatusThread(statusThread status);
+    void slotGetAzsFuelName(AzsFuelName aFN);
 private:
     Ui::ShowFuelNamePage *ui;
     QStringList m_listTerm;
     QStringList statusList;
     QList<QStringList> listConnections;
     statusThread stTh;
+    QList<AzsFuelName> listFuelName;
 private:
     void createUI();
     void statusConnectToDatabase();
     void statusSelectFuelName();
     void statusErrorConnectDatabase();
+    void statusFinished();
 
 
     // QWizardPage interface

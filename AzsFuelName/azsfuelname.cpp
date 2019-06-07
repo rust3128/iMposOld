@@ -25,4 +25,9 @@ void AzsFuelName::insertFuelName(int tID, int fID, QString sN, QString n)
     listFuel.append(fn);
 }
 
+QList<FuelName> AzsFuelName::getListFuel() const
+{
+    return listFuel;
+}
+
 
