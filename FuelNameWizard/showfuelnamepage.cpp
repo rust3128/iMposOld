@@ -37,8 +37,6 @@ void ShowFuelNamePage::slotGetListTerm(QStringList list)
 {
     m_listTerm.clear();
     m_listTerm = list;
-
-    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << list;
 }
 
 
@@ -48,7 +46,6 @@ void ShowFuelNamePage::createUI()
     this->setTitle("<html><head/><body><p><span style='font-size:18pt; font-weight:600;color:blue'>Наименования топлива на АЗС.</span></p></body></html>");
     ui->groupBoxGetFuelName->hide();
 
-    qInfo(logInfo()) << "Function" << Q_FUNC_INFO;
 
     ui->tableWidget->setColumnCount(2);
     //ui->tableWidget->horizontalHeader()->hide();
@@ -60,8 +57,7 @@ void ShowFuelNamePage::createUI()
 
 void ShowFuelNamePage::initializePage()
 {
-
-    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << m_listTerm;
+        isWorkComplete=false;
         //Создаем объект класса и передаем ему параметры
         GetConnectionOptionsClass *lsConnnecions = new GetConnectionOptionsClass(m_listTerm);
 
@@ -117,7 +113,7 @@ void ShowFuelNamePage::slotGetConnectionsList(QList<QStringList> list)
 {
     listConnections.clear();
     listConnections = list;
-    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << listConnections;
+
 
 }
 
@@ -125,8 +121,6 @@ void ShowFuelNamePage::slotFinishConnectionsList()
 {
     ui->groupBoxGetFuelName->show();
     ui->groupBoxProgress->hide();
-//    qInfo(logInfo()) << "АЗС для обработки" << m_listTerm.size() << "Списокв подключения" << listConnections.size();
-    qInfo(logInfo()) << "Function" << Q_FUNC_INFO;
 
     emit signalGoFuelName();
 }
@@ -136,7 +130,6 @@ void ShowFuelNamePage::fuelNameList()
 {
 
     int rowCount =listConnections.size();
-    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << listConnections;
     for(int i=0; i<rowCount; ++i){
         GetFuelNameClass *getFuel = new GetFuelNameClass(listConnections.at(i));
         QThread *thread = new QThread();
@@ -173,6 +166,7 @@ void ShowFuelNamePage::slotGetAzsFuelName(AzsFuelName aFN)
 
 //    qInfo(logInfo()) << "Terminal ID" << aFN.getTerminalID();
 //    qInfo(logInfo()) << aFN.getListFuel().at(0).getName() ;
+    listFuelName.append(aFN);
 }
 
 
@@ -200,6 +194,12 @@ void ShowFuelNamePage::slotGetStatusThread(statusThread status)
     default:
         break;
     }
+
+    if(ui->progressBarFuel->value() == ui->progressBarFuel->maximum()){
+        isWorkComplete = true;
+        emit completeChanged();
+    }
+
 }
 
 
@@ -258,4 +258,26 @@ void ShowFuelNamePage::statusFinished()
 
 
 
+bool ShowFuelNamePage::validatePage()
+{
 
+    if(listFuelName.size()>0){
+        emit signalSendFuelNameList(listFuelName);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+bool ShowFuelNamePage::isComplete() const
+{
+//    qInfo(logInfo()) << Q_FUNC_INFO << listFuelName.size();
+//    if(listFuelName.size() == m_listTerm.size()) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+    return isWorkComplete;
+//    return true;
+}

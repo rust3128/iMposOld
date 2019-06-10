@@ -79,8 +79,8 @@ void SelectTerminalPage::initializePage()
 
 bool SelectTerminalPage::validatePage()
 {
-    qInfo(logInfo()) << "Helow from" << Q_FUNC_INFO;
-    const int rowCount = ui->listWidget->count();
+
+    int rowCount = ui->listWidget->count();
     QListWidgetItem *item = nullptr;
     m_terminalsGo.clear();
     for(int i=0; i<rowCount; ++i){
@@ -100,7 +100,7 @@ bool SelectTerminalPage::validatePage()
 
 bool SelectTerminalPage::isComplete() const
 {
-    const int rowCount = ui->listWidget->count();
+    int rowCount = ui->listWidget->count();
     QListWidgetItem *item = nullptr;
     unsigned int selTerm = 0;
     for(int i=0; i<rowCount; ++i){
@@ -124,7 +124,7 @@ int SelectTerminalPage::nextId() const
 
 void SelectTerminalPage::terminalChecked()
 {
-    const int rowCount = ui->tableViewTerminals->model()->rowCount(QModelIndex());
+    int rowCount = ui->tableViewTerminals->model()->rowCount(QModelIndex());
     unsigned int colChecked = 0;
     for(int i =0; i < rowCount; ++i){
         if(ui->tableViewTerminals->model()->index(i,0).data(Qt::CheckStateRole).toInt() == Qt::Checked){

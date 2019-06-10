@@ -3,7 +3,7 @@
 GetConnectionOptionsClass::GetConnectionOptionsClass(QStringList list, QObject *parent)
     : QObject(parent), m_listTerm(list)
 {
-    qInfo(logInfo()) << Q_FUNC_INFO << "Constructor" << m_listTerm;
+
 }
 
 void GetConnectionOptionsClass::slotGetConnOptions()
@@ -13,7 +13,6 @@ void GetConnectionOptionsClass::slotGetConnOptions()
 //        qCritical(logCritical()) << Q_FUNC_INFO  << "Ошибка открытия баз данных.";
 //        emit signalFinished();
 //    }
-    qInfo(logInfo()) << "Function" << Q_FUNC_INFO;
     QSqlDatabase db = QSqlDatabase::addDatabase("QIBASE","cent");
 
     QSettings settings("MposInstruments.cfg", QSettings::IniFormat);
@@ -33,7 +32,6 @@ void GetConnectionOptionsClass::slotGetConnOptions()
     QSqlQuery q = QSqlQuery(db);
     int colTerm = m_listTerm.size();
     for(int i=0;i<colTerm;++i){
-        qInfo(logInfo()) << "Connections from" << m_listTerm.at(i);
             q.prepare("select c.TERMINAL_ID, c.SERVER_NAME, c.DB_NAME, c.CON_PASSWORD from CONNECTIONS c "
                       "where c.TERMINAL_ID=:terminalID and c.CONNECT_ID=2");
             q.bindValue(":terminalID", m_listTerm.at(i));
@@ -44,7 +42,7 @@ void GetConnectionOptionsClass::slotGetConnOptions()
             m_listConnections.append(list);
             emit signalAzsComplete();
     }
-    qInfo(logInfo()) << Q_FUNC_INFO << "Getting list" << m_listConnections;
+
     emit signalSendConnOptions(m_listConnections);
     emit signalFinished();
 

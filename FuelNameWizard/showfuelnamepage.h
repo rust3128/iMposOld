@@ -21,6 +21,7 @@ public:
     ~ShowFuelNamePage();
 signals:
     void signalGoFuelName();
+    void signalSendFuelNameList(QList<AzsFuelName>);
 private slots:
     void slotStartConnectionsList();
     void slotAzsComplete();
@@ -39,6 +40,8 @@ private:
     QList<QStringList> listConnections;
     statusThread stTh;
     QList<AzsFuelName> listFuelName;
+    bool isWorkComplete;
+    int colWorkTerm;
 private:
     void createUI();
     void statusConnectToDatabase();
@@ -50,6 +53,14 @@ private:
     // QWizardPage interface
 public:
     void initializePage();
+
+    // QWizardPage interface
+public:
+    bool validatePage();
+
+    // QWizardPage interface
+public:
+    bool isComplete() const;
 };
 
 #endif // SHOWFUELNAMEPAGE_H

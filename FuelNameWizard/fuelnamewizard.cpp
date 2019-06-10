@@ -42,4 +42,5 @@ void FuelNameWizard::createWizardPage()
 void FuelNameWizard::createConnections()
 {
     connect(m_terminalPage, &SelectTerminalPage::signalSendTermList,m_showFuelName,&ShowFuelNamePage::slotGetListTerm);
+    connect(m_showFuelName, &ShowFuelNamePage::signalSendFuelNameList,m_finalPage,&FinalPage::slotGetListFuelName);
 }
