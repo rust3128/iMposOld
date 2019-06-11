@@ -7,11 +7,13 @@
 #include <QDesktopServices>
 
 #include "xlsxdocument.h"
-#include "xlsxchartsheet.h"
-#include "xlsxcellrange.h"
-#include "xlsxchart.h"
-#include "xlsxrichstring.h"
-#include "xlsxworkbook.h"
+#include "xlsxformat.h"
+//#include "xlsxchartsheet.h"
+//#include "xlsxcellrange.h"
+//#include "xlsxchart.h"
+//#include "xlsxrichstring.h"
+//#include "xlsxworkbook.h"
+
 using namespace QXlsx;
 
 
@@ -54,10 +56,10 @@ void FinalPage::initializePage()
 void FinalPage::viewFuelName()
 {
 
-
+    headers <<"Резервуар"<<"Код"<<"Кратко"<<"Полное";
     ui->frameName->show();
     ui->tableWidgetName->setColumnCount(4);
-    ui->tableWidgetName->setHorizontalHeaderLabels(QStringList()<<"Резервуар"<<"Код"<<"Кратко"<<"Полное");
+    ui->tableWidgetName->setHorizontalHeaderLabels(headers);
     ui->tableWidgetName->verticalHeader()->hide();
     int colAzs = m_listFuelName.size();
     for(int i = 0; i<colAzs; ++i ){
@@ -146,9 +148,41 @@ void FinalPage::printPreviewNeeds(QPrinter *)
 
 void FinalPage::on_pushButtonXls_clicked()
 {
-    QXlsx::Document xlsx;
-    xlsx.write("A1", "Hello Qt!"); // write "Hello Qt!" to cell(A,1). it's shared string.
-    xlsx.write(2,2,"Пробунм писать в ексель.");
+    Document xlsx;
+    Format format;
+    Format formatMerge;
+
+
+    format.setHorizontalAlignment(Format::AlignHCenter);
+    format.setVerticalAlignment(Format::AlignVCenter);
+    formatMerge.setPatternBackgroundColor(QColor("#aaff7f"));
+    formatMerge.setHorizontalAlignment(Format::AlignHCenter);
+    formatMerge.setVerticalAlignment(Format::AlignVCenter);
+    xlsx.setColumnWidth(1,10);
+    xlsx.setColumnWidth(4,30);
+    static int columnCount = headers.size();
+    const int rowCount = ui->tableWidgetName->rowCount();
+    for(int i =0; i<columnCount; ++i){
+        xlsx.write(1,i+1, headers.at(i),format);
+    }
+    for(int row=0; row<rowCount; ++row){
+        for(int column = 0; column < columnCount; ++column){
+            if(ui->tableWidgetName->columnSpan(row,0) != 1){
+                xlsx.write(row+2, column+1, ui->tableWidgetName->item(row,0)->text());
+                CellRange cellRange = CellRange(row+2,column+1,row+2,columnCount);
+                xlsx.mergeCells(cellRange, formatMerge);
+
+                break;
+            } else {
+                xlsx.write(row+2,column+1,ui->tableWidgetName->item(row,column)->text(),format);
+            }
+        }
+    }
+
+
+
+
+
     QString curPath = QDir::currentPath();
     QString fileName = "ListFuels"+QDateTime::currentDateTime().toString("yyyyMMdd");
 

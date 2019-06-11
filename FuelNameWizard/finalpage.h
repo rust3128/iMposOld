@@ -30,6 +30,7 @@ private:
     QList<AzsFuelName> m_listFuelName;
     QTextDocument *document;
     QPrinter printer;
+    QStringList headers;
 private:
     void createUI();
     void viewFuelName();
