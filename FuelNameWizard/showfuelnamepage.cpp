@@ -24,6 +24,8 @@ ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
 
     m_listTerm.clear();
 
+    colConnect=colSelect=colErrorTodatabase=colErrogSelect=colFinishet=0;
+
     connect(this,&ShowFuelNamePage::signalGoFuelName,this,&ShowFuelNamePage::fuelNameList);
 }
 
@@ -77,7 +79,7 @@ void ShowFuelNamePage::initializePage()
         connect(thread,&QThread::started,lsConnnecions,&GetConnectionOptionsClass::slotGetConnOptions);
 
         connect(lsConnnecions,&GetConnectionOptionsClass::signalAzsComplete,this,&ShowFuelNamePage::slotAzsComplete);
-
+colConnect=colSelect=colErrorTodatabase=colErrogSelect=colFinishet=0;
         connect(lsConnnecions,&GetConnectionOptionsClass::signalSendConnOptions,this,&ShowFuelNamePage::slotGetConnectionsList,Qt::DirectConnection);
 
 
@@ -130,6 +132,7 @@ void ShowFuelNamePage::fuelNameList()
 {
 
     int rowCount =listConnections.size();
+    int colThread = 0;
     for(int i=0; i<rowCount; ++i){
         GetFuelNameClass *getFuel = new GetFuelNameClass(listConnections.at(i));
         QThread *thread = new QThread();
@@ -140,7 +143,7 @@ void ShowFuelNamePage::fuelNameList()
         connect(thread,&QThread::started,this,&ShowFuelNamePage::slotStartGetFuelName);
         connect(thread,&QThread::started, getFuel, &GetFuelNameClass::getFuelList);
 
-        connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread);
+        connect(getFuel,&GetFuelNameClass::signalSendStatus,this,&ShowFuelNamePage::slotGetStatusThread,Qt::UniqueConnection);
 
         connect(getFuel,&GetFuelNameClass::signalSendAzsFuelName,this,&ShowFuelNamePage::slotGetAzsFuelName,Qt::DirectConnection);
 
@@ -150,7 +153,9 @@ void ShowFuelNamePage::fuelNameList()
         connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 
         thread->start();
+        colThread++;
     }
+    qInfo(logInfo()) << "Count connections = " << rowCount << "Count Thread" << colThread;
 
 }
 
@@ -174,32 +179,55 @@ void ShowFuelNamePage::slotGetStatusThread(statusThread status)
 {
 //    qInfo(logInfo()) << "hello from thread" << stTh.terminalId << statusList[stTh.currentStatus];
     stTh=status;
-
+//    int colConnect,colSelect,colErrorTodatabase,colErrogSelect,colFinishet;
+//    colConnect=colSelect=colErrorTodatabase=colErrogSelect=colFinishet=0;
 
     switch (stTh.currentStatus) {
     case CONNECT_TO_DATABASE:
         statusConnectToDatabase();
+        colConnect++;
         break;
     case SELECT_FUEL_NAME:
         statusSelectFuelName();
+        colSelect++;
         break;
     case ERROR_OPEN_DATABASE:
         statusErrorConnectDatabase();
         ui->progressBarFuel->setValue(ui->progressBarFuel->value()+1);
+        colErrorTodatabase++;
+        break;
+    case ERROR_GET_FUEL_NAME:
+        statusSelectFuelName();
+        ui->progressBarFuel->setValue(ui->progressBarFuel->value()+1);
+        colErrogSelect++;
         break;
     case FINISHED:
         statusFinished();
         ui->progressBarFuel->setValue(ui->progressBarFuel->value()+1);
+        colFinishet++;
         break;
     default:
         break;
     }
 
-    if(ui->progressBarFuel->value() == ui->progressBarFuel->maximum()){
-        isWorkComplete = true;
-        emit completeChanged();
-    }
+//    if(ui->progressBarFuel->value() == ui->progressBarFuel->maximum()){
+//        isWorkComplete = true;
+//        emit completeChanged();
+//    }
 
+        if(colConnect == (colSelect+colErrorTodatabase+colErrogSelect)){
+            isWorkComplete = true;
+            emit completeChanged();
+        }
+
+//    ui->label->setText("Обработано: "+QString::number(ui->progressBarFuel->value())+
+//                       " из "+QString::number(ui->progressBarFuel->maximum()));
+    ui->label->setText("Всего: "+QString::number(ui->progressBarFuel->maximum())
+                       +". Обработано: "+QString::number(colSelect)
+                       +". Ошибок: "+QString::number(colErrogSelect+colErrorTodatabase) );
+
+//    qInfo(logInfo()) << "COL CONNECT" << colConnect << "Col Select" << colSelect << "colErrorTodatabase" << colErrorTodatabase
+//                     << "colErrogSelect" << colErrogSelect << "colFinishet" << colFinishet;
 }
 
 
@@ -224,6 +252,19 @@ void ShowFuelNamePage::statusSelectFuelName()
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
             ui->tableWidget->item(i,1)->setBackgroundColor("#D7DF01");
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/selectfuel.png"));
+            break;
+        }
+    }
+}
+
+void ShowFuelNamePage::statusErrorGetFuelName()
+{
+    int rowCount = ui->tableWidget->rowCount();
+    for(int i = 0; i<rowCount; ++i) {
+        if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
+            ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
+            ui->tableWidget->item(i,1)->setBackgroundColor("#DF01A5");
+            ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/error.png"));
             break;
         }
     }

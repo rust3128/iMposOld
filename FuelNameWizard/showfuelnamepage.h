@@ -42,10 +42,12 @@ private:
     QList<AzsFuelName> listFuelName;
     bool isWorkComplete;
     int colWorkTerm;
+    int colConnect,colSelect,colErrorTodatabase,colErrogSelect,colFinishet;
 private:
     void createUI();
     void statusConnectToDatabase();
     void statusSelectFuelName();
+    void statusErrorGetFuelName();
     void statusErrorConnectDatabase();
     void statusFinished();
 

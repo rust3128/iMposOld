@@ -170,3 +170,19 @@ void SelectTerminalPage::highlightChecked(QListWidgetItem *item)
 }
 
 
+
+void SelectTerminalPage::on_toolButtonSelectAllTerminals_clicked()
+{
+    static int rowCount = m_modelTerminals->rowCount(QModelIndex());
+    for(int i=0; i<rowCount; ++i){
+        m_modelTerminals->setData(m_modelTerminals->index(i,0),Qt::Checked, Qt::CheckStateRole);
+    }
+}
+
+void SelectTerminalPage::on_toolButtonUnselectAllTerminals_clicked()
+{
+    static int rowCount = m_modelTerminals->rowCount(QModelIndex());
+    for(int i=0; i<rowCount; ++i){
+        m_modelTerminals->setData(m_modelTerminals->index(i,0),Qt::Unchecked, Qt::CheckStateRole);
+    }
+}

@@ -25,6 +25,10 @@ private slots:
     void terminalChecked();
     void highlightChecked(QListWidgetItem *item);
     void on_toolButtonAddTerm_clicked();
+    void on_toolButtonSelectAllTerminals_clicked();
+
+    void on_toolButtonUnselectAllTerminals_clicked();
+
 signals:
     void signalSendTermList(QStringList);
 public:

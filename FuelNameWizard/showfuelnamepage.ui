@@ -20,6 +20,16 @@
       <string>Получение наименований топлива   </string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="2">
+       <widget class="QProgressBar" name="progressBarFuel">
+        <property name="value">
+         <number>24</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QTableWidget" name="tableWidget">
         <property name="editTriggers">
@@ -36,13 +46,10 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QProgressBar" name="progressBarFuel">
-        <property name="value">
-         <number>24</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>
