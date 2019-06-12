@@ -18,7 +18,8 @@ class FuelNameWizard : public QWizard
 public:
     explicit FuelNameWizard(QWidget *parent = nullptr);
     ~FuelNameWizard();
-
+private slots:
+    void closeWizard();
 private:
     Ui::FuelNameWizard *ui;
     IntroPage *m_introPage;

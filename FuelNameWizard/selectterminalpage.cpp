@@ -44,6 +44,7 @@ void SelectTerminalPage::createModelTerminals()
     ui->tableViewTerminals->verticalHeader()->setDefaultSectionSize(ui->tableViewTerminals->verticalHeader()->minimumSectionSize());
     ui->tableViewTerminals->resizeColumnsToContents();
 
+
 }
 
 void SelectTerminalPage::createListTerminals()
@@ -66,6 +67,18 @@ void SelectTerminalPage::createListTerminals()
     }
 }
 
+void SelectTerminalPage::createModelRegions()
+{
+    m_modelRegions = new QSqlQueryModel(this);
+    m_modelRegions->setQuery("select t.REGION_ID, trim(t.NAME) from TERMINALS t "
+                             "where t.TERMINALTYPE=2 "
+                             "order by t.TERMINAL_ID ");
+    ui->comboBoxRegions->setModel(m_modelRegions);
+    ui->comboBoxRegions->setModelColumn(1);
+    ui->comboBoxRegions->setCurrentIndex(-1);
+
+}
+
 
 
 
@@ -73,6 +86,7 @@ void SelectTerminalPage::initializePage()
 {
     createListTerminals();
     createModelTerminals();
+    createModelRegions();
 
     connect(ui->tableViewTerminals->model(),&QAbstractTableModel::dataChanged,this,&SelectTerminalPage::terminalChecked);
 }
@@ -132,6 +146,7 @@ void SelectTerminalPage::terminalChecked()
         }
     }
     ui->toolButtonAddTerm->setEnabled(colChecked>0);
+    m_proxyModel->sort(0,Qt::DescendingOrder);
 }
 
 
@@ -184,5 +199,42 @@ void SelectTerminalPage::on_toolButtonUnselectAllTerminals_clicked()
     static int rowCount = m_modelTerminals->rowCount(QModelIndex());
     for(int i=0; i<rowCount; ++i){
         m_modelTerminals->setData(m_modelTerminals->index(i,0),Qt::Unchecked, Qt::CheckStateRole);
+    }
+}
+
+void SelectTerminalPage::on_comboBoxRegions_activated(int idx)
+{
+    int ownerid = m_modelRegions->data(m_modelRegions->index(idx,0,QModelIndex())).toInt();
+    static int rowCount = m_modelTerminals->rowCount(QModelIndex());
+    for(int i=0; i<rowCount; ++i){
+        if(m_modelTerminals->data(m_modelTerminals->index(i,3,QModelIndex()),Qt::DisplayRole).toInt() == ownerid){
+            m_modelTerminals->setData(m_modelTerminals->index(i,0),Qt::Checked, Qt::CheckStateRole);
+        }
+    }
+
+    m_proxyModel->sort(0,Qt::DescendingOrder);
+}
+
+void SelectTerminalPage::on_toolButtonSelectAllList_clicked()
+{
+    const int rowSelected = ui->listWidget->count();
+    QListWidgetItem *item = nullptr;
+    for(int i=0; i< rowSelected; ++i ) {
+        item = ui->listWidget->item(i);
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        item->setCheckState(Qt::Checked);
+        highlightChecked(item);
+    }
+}
+
+void SelectTerminalPage::on_toolButtonUnselectAllList_clicked()
+{
+    const int rowSelected = ui->listWidget->count();
+    QListWidgetItem *item = nullptr;
+    for(int i=0; i< rowSelected; ++i ) {
+        item = ui->listWidget->item(i);
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        item->setCheckState(Qt::Unchecked);
+        highlightChecked(item);
     }
 }

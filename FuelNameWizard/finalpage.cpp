@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QDateTime>
 #include <QDesktopServices>
+#include <QAbstractButton>
 
 #include "xlsxdocument.h"
 #include "xlsxformat.h"
@@ -90,60 +91,39 @@ void FinalPage::viewFuelName()
 
 void FinalPage::on_pushButtonPrint_clicked()
 {
-    QString printStr;
-    QTextStream out(&printStr);
 
-    const int rowCount = ui->tableWidgetName->rowCount();
-    const int columnCount = 4;
+    int width = 0;
+    int height = 0;
+    int columns = ui->tableWidgetName->columnCount();
+    int rows = ui->tableWidgetName->rowCount();
 
-    out <<  "<html>\n"
-            "<head>\n"
-            "<meta Content=\"Text/html; charset=utf-8\">\n"
-        <<  QString("<title>%1</title>\n").arg("refTitleName")
-        <<  "</head>\n"
-            "<body bgcolor=#ffffff link=#5000A0>\n"
-            "<table border=1 cellspacing=0 cellpadding=2>\n";
-
-    // headers
-    out << "<tr bgcolor=#f0f0f0>";
-
-    for(int column = 0; column < columnCount; column++)
-        out << QString("<th>%1</th>").arg(ui->tableWidgetName->horizontalHeaderItem(column)->text());
-    out << "</tr>\n";
-    for(int row = 0; row < rowCount; row++){
-        out << "<tr>";
-        for(int column = 0; column < columnCount; column++){
-//            qInfo(logInfo()) << "Row" << row << "Column" << column << "ColumnCpan" << ui->tableWidgetName->columnSpan(row, column);
-            if(ui->tableWidgetName->columnSpan(row,0) != 1){
-                out << QString("<td bkcolor=0 colspan = 4 align='center' bgcolor='#FBF0DB'>%1</td>").arg(ui->tableWidgetName->item(row,0)->text());
-                break;
-            } else{
-                out << QString("<td>%1</td>").arg(ui->tableWidgetName->item(row,column)->text());
-            }
-        }
-        out << "</tr>";
+    for( int i = 0; i < columns; ++i ) {
+        width += ui->tableWidgetName->columnWidth(i);
     }
-    out <<  "</table>\n"
-        "</body>\n"
-        "</html>\n";
-    document = new QTextDocument();
 
-    document->setHtml(printStr);
+    for( int i = 0; i < rows; ++i ) {
+        height += ui->tableWidgetName->rowHeight(i);
+    }
 
+    ui->tableWidgetName->setFixedSize(width, height);
+    ui->tableWidgetName->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->tableWidgetName->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    QPrintPreviewDialog  *prDialog = new QPrintPreviewDialog(&printer, this);
 
-
-   QPrintPreviewDialog  *prDialog = new QPrintPreviewDialog(&printer, this);
-   connect(prDialog,SIGNAL(paintRequested(QPrinter*)),this,SLOT(printPreviewNeeds(QPrinter*)));
-
+    ui->tableWidgetName->render(&printer);
+    connect(prDialog,&QPrintPreviewDialog::paintRequested,this,&FinalPage::printPreviewNeeds);
     prDialog->showMaximized();
     prDialog->exec();
 
+
+
+    emit signalWizardFinished();
 }
 
 void FinalPage::printPreviewNeeds(QPrinter *)
 {
-    document->print(&printer);
+    ui->tableWidgetName->render(&printer);
 }
 
 void FinalPage::on_pushButtonXls_clicked()
@@ -181,9 +161,8 @@ void FinalPage::on_pushButtonXls_clicked()
 
 
 
-
-
     QString curPath = QDir::currentPath();
+    qInfo(logInfo()) << "CurrentPath" << curPath;
     QString fileName = "ListFuels"+QDateTime::currentDateTime().toString("yyyyMMdd");
 
     QString fileNameFull = QFileDialog::getSaveFileName(this,"Сохранить скрипт",curPath+"//"+fileName+".xlsx",
@@ -192,5 +171,7 @@ void FinalPage::on_pushButtonXls_clicked()
     xlsx.saveAs(fileNameFull); // save the document as 'Test.xlsx'
     QString oU = "file://"+fileNameFull;
     QDesktopServices::openUrl(QUrl(oU, QUrl::TolerantMode));
+
+    emit signalWizardFinished();
 
 }

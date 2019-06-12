@@ -8,6 +8,7 @@
 
 
 #include <QWizardPage>
+#include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSortFilterProxyModel>
@@ -29,6 +30,12 @@ private slots:
 
     void on_toolButtonUnselectAllTerminals_clicked();
 
+    void on_comboBoxRegions_activated(int index);
+
+    void on_toolButtonSelectAllList_clicked();
+
+    void on_toolButtonUnselectAllList_clicked();
+
 signals:
     void signalSendTermList(QStringList);
 public:
@@ -43,11 +50,12 @@ private:
     QList<TerminalClass> m_listTerminals;
     QStringList m_listSelectetTerminals;
     QStringList m_terminalsGo;
-
+    QSqlQueryModel *m_modelRegions;
 private:
     void createUI();
     void createModelTerminals();
     void createListTerminals();
+    void createModelRegions();
 
     // QWizardPage interface
 public:

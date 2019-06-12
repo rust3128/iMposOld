@@ -22,7 +22,10 @@ class FinalPage : public QWizardPage
 public:
     explicit FinalPage(QWidget *parent = nullptr);
     ~FinalPage();
+signals:
+    void signalWizardFinished();
 public slots:
+
     void slotGetListFuelName(QList<AzsFuelName> lFN);
 
 private:

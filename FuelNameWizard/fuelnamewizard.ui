@@ -14,7 +14,7 @@
    <string>Wizard</string>
   </property>
   <property name="wizardStyle">
-   <enum>QWizard::AeroStyle</enum>
+   <enum>QWizard::NStyles</enum>
   </property>
  </widget>
  <resources/>
