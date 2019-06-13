@@ -162,14 +162,15 @@ void FinalPage::on_pushButtonXls_clicked()
 
 
     QString curPath = QDir::currentPath();
-    qInfo(logInfo()) << "CurrentPath" << curPath;
+
     QString fileName = "ListFuels"+QDateTime::currentDateTime().toString("yyyyMMdd");
 
     QString fileNameFull = QFileDialog::getSaveFileName(this,"Сохранить скрипт",curPath+"//"+fileName+".xlsx",
                                                "XLSX file (*.xlsx);;Все файлы (*.*)");
 
     xlsx.saveAs(fileNameFull); // save the document as 'Test.xlsx'
-    QString oU = "file://"+fileNameFull;
+    qInfo(logInfo()) << "filename full" << fileNameFull;
+    QString oU = "file:///"+fileNameFull;
     QDesktopServices::openUrl(QUrl(oU, QUrl::TolerantMode));
 
     emit signalWizardFinished();
