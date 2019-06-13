@@ -19,14 +19,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionFuelName_triggered()
 {
-    FuelNameWizard *dlgFuelName = new FuelNameWizard();
+    FuelNameWizard *dlgFuelName = new FuelNameWizard(this);
     this->setCentralWidget(dlgFuelName);
     dlgFuelName->exec();
 }
 
 void MainWindow::on_actionOptions_triggered()
 {
-    OptionsDialog *dlgOptions = new OptionsDialog();
+    OptionsDialog *dlgOptions = new OptionsDialog(this);
     dlgOptions->move(this->geometry().center().x() - dlgOptions->geometry().center().x(),
                      this->geometry().center().y() - dlgOptions->geometry().center().y());
     dlgOptions->exec();
