@@ -36,6 +36,7 @@ SOURCES += \
         CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
+        FuelHandbookDialog/fuelhandbookdialog.cpp \
         FuelName/fuelname.cpp \
         FuelNameWizard/finalpage.cpp \
         FuelNameWizard/fuelnamewizard.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
         CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
+        FuelHandbookDialog/fuelhandbookdialog.h \
         FuelName/fuelname.h \
         FuelNameWizard/finalpage.h \
         FuelNameWizard/fuelnamewizard.h \
@@ -81,6 +83,7 @@ HEADERS += \
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
+        FuelHandbookDialog/fuelhandbookdialog.ui \
         FuelNameWizard/finalpage.ui \
         FuelNameWizard/fuelnamewizard.ui \
         FuelNameWizard/intropage.ui \

@@ -45,6 +45,7 @@ void SelectTerminalPage::createModelTerminals()
     ui->tableViewTerminals->resizeColumnsToContents();
 
 
+
 }
 
 void SelectTerminalPage::createListTerminals()

@@ -34,6 +34,7 @@
      <string>Настройка</string>
     </property>
     <addaction name="actionOptions"/>
+    <addaction name="actionLintName"/>
    </widget>
    <addaction name="menuTools"/>
    <addaction name="menuSettings"/>
@@ -71,6 +72,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionLintName">
+   <property name="text">
+    <string>Наименования топлива</string>
    </property>
   </action>
  </widget>
