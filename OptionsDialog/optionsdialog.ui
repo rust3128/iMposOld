@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>248</width>
-    <height>74</height>
+    <width>261</width>
+    <height>188</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Параметры</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QCheckBox" name="checkBox1000">
      <property name="text">
@@ -22,6 +22,29 @@
     </widget>
    </item>
    <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Привязка терминалов</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButtonTerminal">
+        <property name="text">
+         <string>По коду терминала</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioButtonRegion">
+        <property name="text">
+         <string>По коду  региона</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>

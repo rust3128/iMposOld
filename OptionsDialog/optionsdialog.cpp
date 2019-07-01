@@ -10,6 +10,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     options = new GetOptionsData();
     listOptions = options->sendAllOptions();
     m_isCritical = false;
+    createConnections();
     createUI();
 
 }
@@ -31,10 +32,25 @@ void OptionsDialog::createUI()
         case 1000:
             ui->checkBox1000->setChecked(listOptions.at(i).optionValue.toBool());
             break;
+        case 1010:
+            if(listOptions.at(i).optionValue.toBool()){
+                ui->radioButtonRegion->setChecked(false);
+                ui->radioButtonTerminal->setChecked(true);
+            } else {
+                ui->radioButtonRegion->setChecked(true);
+                ui->radioButtonTerminal->setChecked(false);
+            }
+            break;
         default:
             break;
         }
     }
+}
+
+void OptionsDialog::createConnections()
+{
+    connect(ui->radioButtonRegion,&QRadioButton::clicked, this, &OptionsDialog::slotGroupBoxChanged);
+    connect(ui->radioButtonTerminal,&QRadioButton::clicked, this, &OptionsDialog::slotGroupBoxChanged);
 }
 
 void OptionsDialog::on_buttonBox_accepted()
@@ -54,4 +70,19 @@ void OptionsDialog::on_checkBox1000_clicked()
     opt.optionID=1000;
     opt.optionValue = ui->checkBox1000->isChecked();
     currentListOptions.append(opt);
+}
+
+
+
+void OptionsDialog::slotGroupBoxChanged()
+{
+
+    opt.optionID=1010;
+    opt.optionValue = ui->radioButtonRegion->isChecked();
+    currentListOptions.append(opt);
+    qInfo(logInfo()) << "OptionValue" <<  opt.optionValue;
+    qInfo(logInfo()) << "RadioRegions" << ui->radioButtonRegion->isChecked();
+
+
+
 }

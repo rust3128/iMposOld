@@ -23,6 +23,8 @@ private slots:
     void on_buttonBox_rejected();
     void on_checkBox1000_clicked();
 
+    void slotGroupBoxChanged();
+
 private:
     Ui::OptionsDialog *ui;
     GetOptionsData *options;
@@ -32,6 +34,7 @@ private:
     bool m_isCritical;
 private:
     void createUI();
+    void createConnections();
 };
 
 #endif // OPTIONSDIALOG_H

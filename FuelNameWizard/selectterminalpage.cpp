@@ -52,8 +52,9 @@ void SelectTerminalPage::createListTerminals()
 {
     QSqlQuery q;
     TerminalClass t;
-    if(!q.exec("SELECT t.TERMINAL_ID, TRIM(t.NAME), t.OWNER_ID from terminals t "
-               "WHERE t.TERMINALTYPE=3 "
+    if(!q.exec("SELECT DISTINCT t.TERMINAL_ID, TRIM(t.NAME), t.OWNER_ID from terminals t "
+               "LEFT JOIN shifts s ON s.TERMINAL_ID = t.TERMINAL_ID "
+               "WHERE t.TERMINALTYPE=3 and s.SHIFT_ID >1"
                "ORDER BY t.TERMINAL_ID")) {
         qInfo(logInfo()) << Q_FUNC_INFO  << "Не возможно получить список терминалов" << q.lastError().text();
         return;
@@ -71,7 +72,7 @@ void SelectTerminalPage::createListTerminals()
 void SelectTerminalPage::createModelRegions()
 {
     m_modelRegions = new QSqlQueryModel(this);
-    m_modelRegions->setQuery("select t.REGION_ID, trim(t.NAME) from TERMINALS t "
+    m_modelRegions->setQuery("select t.terminal_id, trim(t.NAME) from TERMINALS t "
                              "where t.TERMINALTYPE=2 "
                              "order by t.TERMINAL_ID ");
     ui->comboBoxRegions->setModel(m_modelRegions);
@@ -180,9 +181,9 @@ void SelectTerminalPage::highlightChecked(QListWidgetItem *item)
 {
     this->completeChanged();
     if(item->checkState() == Qt::Checked)
-        item->setBackgroundColor(QColor("#ffffb2"));
+        item->setBackground(QColor("#ffffb2"));
     else
-        item->setBackgroundColor(QColor("#ffffff"));
+        item->setBackground(QColor("#ffffff"));
 }
 
 
@@ -206,6 +207,9 @@ void SelectTerminalPage::on_toolButtonUnselectAllTerminals_clicked()
 void SelectTerminalPage::on_comboBoxRegions_activated(int idx)
 {
     int ownerid = m_modelRegions->data(m_modelRegions->index(idx,0,QModelIndex())).toInt();
+
+    qInfo(logInfo()) << "OVNER_ID =" << ownerid << "IDX" << idx;
+
     static int rowCount = m_modelTerminals->rowCount(QModelIndex());
     for(int i=0; i<rowCount; ++i){
         if(m_modelTerminals->data(m_modelTerminals->index(i,3,QModelIndex()),Qt::DisplayRole).toInt() == ownerid){
