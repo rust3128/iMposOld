@@ -16,6 +16,17 @@ public:
     explicit FuelHandbookDialog(QWidget *parent = nullptr);
     ~FuelHandbookDialog();
 
+private slots:
+    void slotUpdateModels();
+
+    void on_pushButtonAdd_clicked();
+
+
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_pushButtonClose_clicked();
+
 private:
     Ui::FuelHandbookDialog *ui;
     QSqlTableModel *modelName;

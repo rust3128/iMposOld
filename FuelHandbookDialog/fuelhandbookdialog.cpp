@@ -1,5 +1,6 @@
 #include "fuelhandbookdialog.h"
 #include "ui_fuelhandbookdialog.h"
+#include "AddFuelNameDialog/addfuelnamedialog.h"
 
 FuelHandbookDialog::FuelHandbookDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,6 +16,7 @@ FuelHandbookDialog::~FuelHandbookDialog()
 {
     delete ui;
 }
+
 
 void FuelHandbookDialog::createUI()
 {
@@ -34,6 +36,36 @@ void FuelHandbookDialog::createModel()
 
     modelName->setTable("fuelnames");
     modelName->select();
-    modelName->setHeaderData(1,Qt::Horizontal,"Наименование топлива");
+    modelName->setHeaderData(1,Qt::Horizontal,"Наименование топлива в кассе");
     modelName->setHeaderData(2,Qt::Horizontal,"Коменнатрии");
+}
+
+void FuelHandbookDialog::slotUpdateModels()
+{
+    modelName->select();
+}
+
+void FuelHandbookDialog::on_pushButtonAdd_clicked()
+{
+    AddFuelNameDialog *addFuelDlg = new AddFuelNameDialog(-1);
+    connect(addFuelDlg, &AddFuelNameDialog::signalReady, this, &FuelHandbookDialog::slotUpdateModels);
+
+    addFuelDlg->setWindowTitle("Добавить наименование");
+    addFuelDlg->exec();
+}
+
+
+
+void FuelHandbookDialog::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    AddFuelNameDialog *addFuelDlg = new AddFuelNameDialog(index.row());
+    connect(addFuelDlg, &AddFuelNameDialog::signalReady, this, &FuelHandbookDialog::slotUpdateModels);
+
+    addFuelDlg->setWindowTitle("Изменить наименование");
+    addFuelDlg->exec();
+}
+
+void FuelHandbookDialog::on_pushButtonClose_clicked()
+{
+    this->reject();
 }

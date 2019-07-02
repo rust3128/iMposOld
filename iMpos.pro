@@ -32,6 +32,7 @@ QXLSX_SOURCEPATH=./source/  # current QXlsx source path is ./source/
 include(./QXlsx.pri)
 
 SOURCES += \
+        AddFuelNameDialog/addfuelnamedialog.cpp \
         AzsFuelName/azsfuelname.cpp \
         CheckBoxDelegate/checkboxdelegate.cpp \
         ConnectionSettingDialog/connectionsettingdialog.cpp \
@@ -56,6 +57,7 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        AddFuelNameDialog/addfuelnamedialog.h \
         AzsFuelName/azsfuelname.h \
         CheckBoxDelegate/checkboxdelegate.h \
         ConnectionSettingDialog/connectionsettingdialog.h \
@@ -82,6 +84,7 @@ HEADERS += \
         passconv.h
 
 FORMS += \
+        AddFuelNameDialog/addfuelnamedialog.ui \
         ConnectionSettingDialog/connectionsettingdialog.ui \
         FuelHandbookDialog/fuelhandbookdialog.ui \
         FuelNameWizard/finalpage.ui \
