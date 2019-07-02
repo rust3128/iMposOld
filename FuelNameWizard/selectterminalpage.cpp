@@ -1,6 +1,8 @@
 #include "selectterminalpage.h"
 #include "ui_selectterminalpage.h"
 #include "pagelist.h"
+#include "GetOptionsData/getoptionsdata.h"
+
 
 
 
@@ -72,9 +74,19 @@ void SelectTerminalPage::createListTerminals()
 void SelectTerminalPage::createModelRegions()
 {
     m_modelRegions = new QSqlQueryModel(this);
-    m_modelRegions->setQuery("select t.terminal_id, trim(t.NAME) from TERMINALS t "
-                             "where t.TERMINALTYPE=2 "
-                             "order by t.TERMINAL_ID ");
+
+    GetOptionsData opt;
+    if(opt.getOption(1010).toBool()){
+        m_modelRegions->setQuery("select t.region_id, trim(t.NAME) from TERMINALS t "
+                                 "where t.TERMINALTYPE=2 "
+                                 "order by t.TERMINAL_ID ");
+    } else {
+        m_modelRegions->setQuery("select t.terminal_id, trim(t.NAME) from TERMINALS t "
+                                 "where t.TERMINALTYPE=2 "
+                                 "order by t.TERMINAL_ID ");
+    }
+
+
     ui->comboBoxRegions->setModel(m_modelRegions);
     ui->comboBoxRegions->setModelColumn(1);
     ui->comboBoxRegions->setCurrentIndex(-1);

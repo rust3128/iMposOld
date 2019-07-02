@@ -29,6 +29,7 @@ void GetOptionsData::connectDatabase()
 
 void GetOptionsData::getAllOptions()
 {
+    m_listOptions.clear();
     QSqlQuery q = QSqlQuery(dbOptions);
     q.prepare("SELECT option_ID, value FROM options ORDER BY option_ID");
     if(!q.exec()) {

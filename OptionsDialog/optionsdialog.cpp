@@ -34,11 +34,11 @@ void OptionsDialog::createUI()
             break;
         case 1010:
             if(listOptions.at(i).optionValue.toBool()){
-                ui->radioButtonRegion->setChecked(false);
-                ui->radioButtonTerminal->setChecked(true);
-            } else {
                 ui->radioButtonRegion->setChecked(true);
                 ui->radioButtonTerminal->setChecked(false);
+            } else {
+                ui->radioButtonRegion->setChecked(false);
+                ui->radioButtonTerminal->setChecked(true);
             }
             break;
         default:
@@ -55,6 +55,14 @@ void OptionsDialog::createConnections()
 
 void OptionsDialog::on_buttonBox_accepted()
 {
+    opt.optionID=1010;
+    if(ui->radioButtonRegion->isChecked())
+        opt.optionValue = true;
+    if(ui->radioButtonTerminal->isChecked())
+        opt.optionValue = false;
+
+    currentListOptions.append(opt);
+
     options->saveChangedOptions(currentListOptions);
     this->accept();
 }
@@ -77,12 +85,9 @@ void OptionsDialog::on_checkBox1000_clicked()
 void OptionsDialog::slotGroupBoxChanged()
 {
 
-    opt.optionID=1010;
-    opt.optionValue = ui->radioButtonRegion->isChecked();
-    currentListOptions.append(opt);
-    qInfo(logInfo()) << "OptionValue" <<  opt.optionValue;
-    qInfo(logInfo()) << "RadioRegions" << ui->radioButtonRegion->isChecked();
 
+//    //(ui->radioButtonRegion->isChecked() ) ? opt.optionValue = true : opt.optionValue = false;
 
-
+//    qInfo(logInfo()) << "OptionValue" <<  opt.optionValue.toBool();
+//    qInfo(logInfo()) << "RadioRegions" << ui->radioButtonRegion->isChecked();
 }
