@@ -35,9 +35,12 @@ void FuelHandbookDialog::createModel()
     modelName = new QSqlTableModel(this,db);
 
     modelName->setTable("fuelnames");
+    modelName->setFilter("1=1 order by fuel_id");
     modelName->select();
-    modelName->setHeaderData(1,Qt::Horizontal,"Наименование топлива в кассе");
-    modelName->setHeaderData(2,Qt::Horizontal,"Коменнатрии");
+    modelName->setHeaderData(2,Qt::Horizontal,"Наименование топлива\nв кассе");
+    modelName->setHeaderData(1,Qt::Horizontal,"Код\nв базе");
+    modelName->setHeaderData(3,Qt::Horizontal,"Коменнатрии");
+
 }
 
 void FuelHandbookDialog::slotUpdateModels()

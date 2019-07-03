@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>372</width>
-    <height>171</height>
+    <height>214</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEditFuelName">
-     <property name="maxLength">
-      <number>30</number>
+   <item row="2" column="0" alignment="Qt::AlignTop">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Коментарий:</string>
      </property>
     </widget>
    </item>
@@ -28,20 +28,37 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QPlainTextEdit" name="plainTextEditComments"/>
    </item>
-   <item row="1" column="0" alignment="Qt::AlignTop">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Коментарий:</string>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="lineEditFuelName">
+     <property name="maxLength">
+      <number>30</number>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Код в базе</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="spinBox">
+     <property name="minimum">
+      <number>7</number>
+     </property>
+     <property name="maximum">
+      <number>8</number>
      </property>
     </widget>
    </item>

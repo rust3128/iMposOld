@@ -40,8 +40,9 @@ void AddFuelNameDialog::setupModel()
     mapper = new QDataWidgetMapper();
     mapper->setModel(model);
 
-    mapper->addMapping(ui->lineEditFuelName,1);
-    mapper->addMapping(ui->plainTextEditComments,2);
+    mapper->addMapping(ui->spinBox,1);
+    mapper->addMapping(ui->lineEditFuelName,2);
+    mapper->addMapping(ui->plainTextEditComments,3);
 
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 

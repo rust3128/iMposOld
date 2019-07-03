@@ -81,7 +81,7 @@ bool DataBases::connectOptions()
         listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1010, 'false', 'Использовать привязку по региону')";
         listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'true' )";
         listSQL << "INSERT INTO `users`(`fio`,`password`) VALUES ('Администратор','masterkey')";
-        listSQL << "CREATE TABLE `fuelnames` (`nameID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`fuelname` TEXT NOT NULL,`comments` TEXT)";
+        listSQL << "CREATE TABLE `fuelnames` (`nameID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fuel_id` INTEGER NOT NULL,  `fuelname` TEXT NOT NULL,`comments` TEXT)";
 
         for (int i =0;i<listSQL.size();++i) {
             q.exec(listSQL.at(i));
