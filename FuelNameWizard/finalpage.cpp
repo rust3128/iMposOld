@@ -69,7 +69,7 @@ void FinalPage::viewFuelName()
         QTableWidgetItem *itemAZS = new QTableWidgetItem(QString::number(m_listFuelName.at(i).getTerminalID()));
         itemAZS->setTextAlignment(Qt::AlignHCenter);
 
-        itemAZS->setBackgroundColor(QColor("#aaff7f"));
+        itemAZS->setBackground(QColor("#aaff7f"));
 //        itemAZS->setTextAlignment(Qt::AlignVCenter);
         ui->tableWidgetName->setSpan(row,0,1,4);
         ui->tableWidgetName->setItem(row,0,itemAZS);

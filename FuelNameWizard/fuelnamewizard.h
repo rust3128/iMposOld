@@ -5,6 +5,7 @@
 #include "selectterminalpage.h"
 #include "finalpage.h"
 #include "showfuelnamepage.h"
+#include "setfuelnamepage.h"
 #include <QWizard>
 
 namespace Ui {
@@ -26,6 +27,8 @@ private:
     SelectTerminalPage *m_terminalPage;
     FinalPage *m_finalPage;
     ShowFuelNamePage *m_showFuelName;
+    SetFuelNamePage *m_setFuelName;
+
 private:
     void createWizardPage();
     void createConnections();

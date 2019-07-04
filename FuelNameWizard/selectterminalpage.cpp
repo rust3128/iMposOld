@@ -146,7 +146,7 @@ int SelectTerminalPage::nextId() const
     if(field("checkView").toBool())
         nextPage = SHOW_FUELNAME_PAGE;
     if(field("checkEdit").toBool())
-        nextPage = FINAL_PAGE;
+        nextPage = CHANGE_FUELNAME_PAGE;
     return nextPage;
 }
 
