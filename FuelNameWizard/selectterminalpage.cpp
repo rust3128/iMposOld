@@ -220,7 +220,6 @@ void SelectTerminalPage::on_comboBoxRegions_activated(int idx)
 {
     int ownerid = m_modelRegions->data(m_modelRegions->index(idx,0,QModelIndex())).toInt();
 
-    qInfo(logInfo()) << "OVNER_ID =" << ownerid << "IDX" << idx;
 
     static int rowCount = m_modelTerminals->rowCount(QModelIndex());
     for(int i=0; i<rowCount; ++i){

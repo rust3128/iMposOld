@@ -2,7 +2,7 @@
 #define INTROPAGE_H
 
 #include <QWizardPage>
-#include <QSqlTableModel>
+
 
 namespace Ui {
 class IntroPage;
@@ -18,10 +18,10 @@ public:
 
 private:
     Ui::IntroPage *ui;
-    QSqlTableModel *modelFuel;
+
 private:
     void createUI();
-    void createModels();
+
 
     // QWizardPage interface
 public:

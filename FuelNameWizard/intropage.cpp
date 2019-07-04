@@ -6,7 +6,7 @@ IntroPage::IntroPage(QWidget *parent) :
     ui(new Ui::IntroPage)
 {
     ui->setupUi(this);
-    createModels();
+
     createUI();
 
     this->registerField("checkView", ui->radioButtonView);
@@ -22,19 +22,11 @@ void IntroPage::createUI()
 {
     this->setTitle("<html><head/><body><p><span style='font-size:18pt; font-weight:600;color:blue'>Шаг 1. Выбор действий.</span></p></body></html>");
     this->setSubTitle("<html><head/><body><p><span style='font-size:10pt; font-weight:600;'>Выберите действия которые необходимо произвести с наименованиями видов топлива на АЗС.</span></p></body></html>");
-    ui->groupBoxName->hide();
+
 
 }
 
-void IntroPage::createModels()
-{
-    QSqlDatabase db = QSqlDatabase::database("options");
 
-    modelFuel = new QSqlTableModel(this, db);
-    modelFuel->setTable("fuelnames");
-    modelFuel->setFilter("1=1 order by fuel_id");
-    modelFuel->select();
-}
 
 
 void IntroPage::initializePage()
@@ -60,6 +52,6 @@ void IntroPage::on_radioButtonView_clicked()
 
 void IntroPage::on_radioButtonEdit_clicked()
 {
-    ui->groupBoxName->show();
+
     emit this->completeChanged();
 }

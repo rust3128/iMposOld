@@ -2,6 +2,8 @@
 #define SETFUELNAMEPAGE_H
 
 #include <QWizardPage>
+#include <QSqlTableModel>
+#include <QListWidgetItem>
 
 namespace Ui {
 class SetFuelNamePage;
@@ -14,13 +16,14 @@ class SetFuelNamePage : public QWizardPage
 public:
     explicit SetFuelNamePage(QWidget *parent = nullptr);
     ~SetFuelNamePage();
-
+private slots:
+    void highlightChecked(QListWidgetItem *item);
 private:
     Ui::SetFuelNamePage *ui;
-
+    QSqlTableModel *modelFuel;
 private:
     void createUI();
-
+    void createModels();
 
     // QWizardPage interface
 public:
