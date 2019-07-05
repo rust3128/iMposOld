@@ -53,6 +53,7 @@ SOURCES += \
         ModelTerminals/modelterminals.cpp \
         OptionsDialog/optionsdialog.cpp \
         ProgressBarDelegate/progressbardelegate.cpp \
+        SQLHighlighter/SQLHighlighter.cpp \
         TerminalClass/terminalclass.cpp \
         main.cpp \
         mainwindow.cpp
@@ -81,6 +82,7 @@ HEADERS += \
         ModelTerminals/modelterminals.h \
         OptionsDialog/optionsdialog.h \
         ProgressBarDelegate/progressbardelegate.h \
+        SQLHighlighter/SQLHighlighter.h \
         TerminalClass/terminalclass.h \
         mainwindow.h \
         passconv.h

@@ -36,6 +36,7 @@ private slots:
 private:
     Ui::SetFuelNamePage *ui;
     QSqlTableModel *modelFuel;
+    QStringList listSQL;
 private:
     void createUI();
 

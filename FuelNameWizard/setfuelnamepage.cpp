@@ -1,6 +1,7 @@
 #include "setfuelnamepage.h"
 #include "ui_setfuelnamepage.h"
 #include "LoggingCategories/loggingcategories.h"
+#include "SQLHighlighter/SQLHighlighter.h"
 
 #include <QDate>
 
@@ -28,8 +29,6 @@ void SetFuelNamePage::createUI()
 
 
 }
-
-
 
 void SetFuelNamePage::initializePage()
 {
@@ -90,7 +89,38 @@ void SetFuelNamePage::on_checkBoxVIPW_clicked()
 
 void SetFuelNamePage::on_commandLinkButton_clicked()
 {
-    if(ui->frame->isHidden())
+    if(ui->frame->isVisible())
         return;
-    ui->frame->show();
+    if(ui->checkBoxDTS->isChecked() || ui->checkBoxDTW->isChecked() || ui->checkBoxVIPS->isChecked() || ui->checkBoxVIPW->isChecked())
+        ui->frame->show();
+    else
+        return;
+    listSQL.clear();
+    QString dtName="";
+
+    dtName = (ui->checkBoxDTS->isChecked()) ? ui->checkBoxDTS->text() : "";
+    dtName = (ui->checkBoxDTW->isChecked()) ? ui->checkBoxDTW->text() : "";
+
+    QString VPName="";
+
+    VPName = (ui->checkBoxVIPS->isChecked()) ? ui->checkBoxVIPS->text() : "";
+    VPName = (ui->checkBoxVIPW->isChecked()) ? ui->checkBoxVIPW->text() : "";
+
+
+    QString infoMessage = ui->dateEdit->date().toString("dd.MM.yyyy");
+    infoMessage += " будут устанвлены следующие наименования " + dtName + " " + VPName+".";
+    ui->labelInfo->setText(infoMessage);
+
+    if(dtName.size()>0)
+        listSQL << "UPDATE FUELS SET NAME = '"+dtName+"' WHERE FUEL_ID = 7;";
+    if(VPName.size()>0)
+        listSQL << "UPDATE FUELS SET NAME = '"+VPName+"' WHERE FUEL_ID = 8;";
+    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '"+ui->dateEdit->date().toString("yyyyMMdd")+"' WHERE MIGRATEOPTION_ID = 3400;";
+    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '6' WHERE MIGRATEOPTION_ID = 3410;";
+    listSQL << "commit;";
+
+    new SQLHighlighter(ui->textEdit->document());
+
+    ui->textEdit->append(listSQL.join("\n"));
+
 }
