@@ -63,6 +63,10 @@ public:
     // QWizardPage interface
 public:
     bool isComplete() const;
+
+    // QWizardPage interface
+public:
+    int nextId() const;
 };
 
 #endif // SHOWFUELNAMEPAGE_H

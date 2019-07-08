@@ -1,6 +1,7 @@
 #include "showfuelnamepage.h"
 #include "passconv.h"
 #include "ui_showfuelnamepage.h"
+#include "pagelist.h"
 #include "LoggingCategories/loggingcategories.h"
 #include "ProgressBarDelegate/progressbardelegate.h"
 #include "GetFuelNameClass/getfuelnameclass.h"
@@ -321,4 +322,10 @@ bool ShowFuelNamePage::isComplete() const
 //    }
     return isWorkComplete;
 //    return true;
+}
+
+
+int ShowFuelNamePage::nextId() const
+{
+    return FINAL_PAGE;
 }

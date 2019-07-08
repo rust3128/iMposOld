@@ -2,6 +2,7 @@
 #include "ui_setfuelnamepage.h"
 #include "LoggingCategories/loggingcategories.h"
 #include "SQLHighlighter/SQLHighlighter.h"
+#include "pagelist.h"
 
 #include <QDate>
 
