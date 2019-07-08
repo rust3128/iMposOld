@@ -33,6 +33,8 @@ private slots:
 
     void on_commandLinkButton_clicked();
 
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Ui::SetFuelNamePage *ui;
     QSqlTableModel *modelFuel;

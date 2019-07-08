@@ -43,7 +43,7 @@ bool SetFuelNamePage::validatePage()
 
 bool SetFuelNamePage::isComplete() const
 {
-
+    return ui->checkBox->isChecked();
 }
 
 int SetFuelNamePage::nextId() const
@@ -98,13 +98,31 @@ void SetFuelNamePage::on_commandLinkButton_clicked()
     listSQL.clear();
     QString dtName="";
 
-    dtName = (ui->checkBoxDTS->isChecked()) ? ui->checkBoxDTS->text() : "";
-    dtName = (ui->checkBoxDTW->isChecked()) ? ui->checkBoxDTW->text() : "";
+    if(ui->checkBoxDTS->isChecked()) {
+        dtName = ui->checkBoxDTS->text();
+    } else {
+        if(ui->checkBoxDTW->isChecked()){
+            dtName=ui->checkBoxDTW->text();
+        }
+    }
+
+
+//    dtName = (ui->checkBoxDTS->isChecked()) ? ui->checkBoxDTS->text() : "";
+//    dtName = (ui->checkBoxDTW->isChecked()) ? ui->checkBoxDTW->text() : "";
 
     QString VPName="";
 
-    VPName = (ui->checkBoxVIPS->isChecked()) ? ui->checkBoxVIPS->text() : "";
-    VPName = (ui->checkBoxVIPW->isChecked()) ? ui->checkBoxVIPW->text() : "";
+    if(ui->checkBoxVIPS->isChecked()) {
+        VPName = ui->checkBoxVIPS->text();
+    } else {
+        if(ui->checkBoxVIPW->isChecked()){
+            VPName=ui->checkBoxVIPW->text();
+        }
+    }
+
+
+//    VPName = (ui->checkBoxVIPS->isChecked()) ? ui->checkBoxVIPS->text() : "";
+//    VPName = (ui->checkBoxVIPW->isChecked()) ? ui->checkBoxVIPW->text() : "";
 
 
     QString infoMessage = ui->dateEdit->date().toString("dd.MM.yyyy");
@@ -123,4 +141,10 @@ void SetFuelNamePage::on_commandLinkButton_clicked()
 
     ui->textEdit->append(listSQL.join("\n"));
 
+}
+
+void SetFuelNamePage::on_checkBox_stateChanged(int arg1)
+{
+    Q_UNUSED(arg1);
+    emit this->completeChanged();
 }
