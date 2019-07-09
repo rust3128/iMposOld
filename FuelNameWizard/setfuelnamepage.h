@@ -46,7 +46,6 @@ private:
     // QWizardPage interface
 public:
     void initializePage();
-    bool validatePage();
     bool isComplete() const;
     int nextId() const;
 };

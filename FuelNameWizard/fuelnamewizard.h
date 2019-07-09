@@ -6,6 +6,7 @@
 #include "finalpage.h"
 #include "showfuelnamepage.h"
 #include "setfuelnamepage.h"
+#include "setazsfuelnamepage.h"
 #include <QWizard>
 
 namespace Ui {
@@ -28,6 +29,7 @@ private:
     FinalPage *m_finalPage;
     ShowFuelNamePage *m_showFuelName;
     SetFuelNamePage *m_setFuelName;
+    SetAzsFuelNamePage *m_setAzsFuelName;
 
 private:
     void createWizardPage();

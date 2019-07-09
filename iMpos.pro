@@ -43,6 +43,7 @@ SOURCES += \
         FuelNameWizard/fuelnamewizard.cpp \
         FuelNameWizard/intropage.cpp \
         FuelNameWizard/selectterminalpage.cpp \
+        FuelNameWizard/setazsfuelnamepage.cpp \
         FuelNameWizard/setfuelnamepage.cpp \
         FuelNameWizard/showfuelnamepage.cpp \
         GetConnectionOptionsClass/getconnectionoptionsclass.cpp \
@@ -71,6 +72,7 @@ HEADERS += \
         FuelNameWizard/intropage.h \
         FuelNameWizard/pagelist.h \
         FuelNameWizard/selectterminalpage.h \
+        FuelNameWizard/setazsfuelnamepage.h \
         FuelNameWizard/setfuelnamepage.h \
         FuelNameWizard/showfuelnamepage.h \
         FuelNameWizard/statusthread.h \
@@ -95,6 +97,7 @@ FORMS += \
         FuelNameWizard/fuelnamewizard.ui \
         FuelNameWizard/intropage.ui \
         FuelNameWizard/selectterminalpage.ui \
+        FuelNameWizard/setazsfuelnamepage.ui \
         FuelNameWizard/setfuelnamepage.ui \
         FuelNameWizard/showfuelnamepage.ui \
         LoginDialog/logindialog.ui \

@@ -33,6 +33,7 @@ void FuelNameWizard::createWizardPage()
     m_finalPage = new FinalPage();
     m_showFuelName = new ShowFuelNamePage();
     m_setFuelName = new SetFuelNamePage();
+    m_setAzsFuelName = new SetAzsFuelNamePage();
 
     createConnections();
 
@@ -41,6 +42,7 @@ void FuelNameWizard::createWizardPage()
     this->setPage(FINAL_PAGE, m_finalPage);
     this->setPage(SHOW_FUELNAME_PAGE, m_showFuelName);
     this->setPage(CHANGE_FUELNAME_PAGE,m_setFuelName);
+    this->setPage(SET_AZS_FUELNAME_PAGE, m_setAzsFuelName);
     this->setStartId(INTRO_PAGE);
 
 }

@@ -9,6 +9,7 @@
 #include <QTableWidgetItem>
 #include <QThread>
 #include <QIcon>
+#include <QBrush>
 
 ShowFuelNamePage::ShowFuelNamePage(QWidget *parent) :
     QWizardPage(parent),
@@ -80,7 +81,7 @@ void ShowFuelNamePage::initializePage()
         connect(thread,&QThread::started,lsConnnecions,&GetConnectionOptionsClass::slotGetConnOptions);
 
         connect(lsConnnecions,&GetConnectionOptionsClass::signalAzsComplete,this,&ShowFuelNamePage::slotAzsComplete);
-colConnect=colSelect=colErrorTodatabase=colErrogSelect=colFinishet=0;
+        colConnect=colSelect=colErrorTodatabase=colErrogSelect=colFinishet=0;
         connect(lsConnnecions,&GetConnectionOptionsClass::signalSendConnOptions,this,&ShowFuelNamePage::slotGetConnectionsList,Qt::DirectConnection);
 
 
@@ -241,7 +242,7 @@ void ShowFuelNamePage::statusConnectToDatabase()
     ui->tableWidget->setItem(row,1, new QTableWidgetItem(statusList[stTh.currentStatus]));
     ui->tableWidget->item(row,0)->setIcon(QIcon(":/Picts/GasStation.png"));
     ui->tableWidget->item(row,1)->setIcon(QIcon(":/Picts/database.png"));
-    ui->tableWidget->item(row,1)->setBackgroundColor("#F4FA58");
+    ui->tableWidget->item(row,1)->setBackground(QBrush("#F4FA58"));
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(36);
 }
 
@@ -251,7 +252,7 @@ void ShowFuelNamePage::statusSelectFuelName()
     for(int i = 0; i<rowCount; ++i) {
         if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
-            ui->tableWidget->item(i,1)->setBackgroundColor("#D7DF01");
+            ui->tableWidget->item(i,1)->setBackground(QBrush("#D7DF01"));
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/selectfuel.png"));
             break;
         }
@@ -264,7 +265,7 @@ void ShowFuelNamePage::statusErrorGetFuelName()
     for(int i = 0; i<rowCount; ++i) {
         if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
-            ui->tableWidget->item(i,1)->setBackgroundColor("#DF01A5");
+            ui->tableWidget->item(i,1)->setBackground(QBrush("#DF01A5"));
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/error.png"));
             break;
         }
@@ -277,7 +278,7 @@ void ShowFuelNamePage::statusErrorConnectDatabase()
     for(int i = 0; i<rowCount; ++i) {
         if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
-            ui->tableWidget->item(i,1)->setBackgroundColor("#FE2E2E");
+            ui->tableWidget->item(i,1)->setBackground(QBrush("#FE2E2E"));
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/error.png"));
             break;
         }
@@ -290,7 +291,7 @@ void ShowFuelNamePage::statusFinished()
     for(int i = 0; i<rowCount; ++i) {
         if(ui->tableWidget->item(i,0)->text().toInt() == stTh.terminalId) {
             ui->tableWidget->item(i,1)->setText(statusList[stTh.currentStatus]);
-            ui->tableWidget->item(i,1)->setBackgroundColor("#BFFF00");
+            ui->tableWidget->item(i,1)->setBackground(QBrush("#BFFF00"));
             ui->tableWidget->item(i,1)->setIcon(QIcon(":/Picts/Accept.png"));
 
             break;
